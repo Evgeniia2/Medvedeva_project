@@ -1,0 +1,19 @@
+#carouselExampleCaptions {
+    max-width: 700px; 
+    margin: auto; 
+  }
+
+  .carousel-inner img {
+    max-width: 100%; 
+    height: auto; 
+  }
+
+.carousel-caption h5 {
+        color: black;
+    
+  }
+
+  .carousel-caption p {
+        color: black;
+   
+  }

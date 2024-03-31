@@ -1,0 +1,42 @@
+
+.recenzie {
+    display: flex;
+    margin: 20px;
+    overflow: hidden;
+}
+
+
+.recimg {
+    flex: 1;
+    overflow: hidden;
+    
+}
+.recimg img {
+    width:  100%;
+    height: auto;
+    display: block;
+    margin: auto;
+}
+.rectext {
+    flex: 2;
+   padding-left: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+.rectext h5{
+    font-weight: bold;
+}
+/* Медиазапрос при разрешении экранаа менее 900пх применяем другие стили */
+@media (max-width: 900px) {
+    .infoblockrec {
+        flex-direction: column;
+    }
+    .recenzie {
+        flex-direction: column;
+    }
+    .recimg {
+        height: auto;
+        margin: auto;
+    }
+}
+

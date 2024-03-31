@@ -1,0 +1,111 @@
+
+
+.card-body {
+    box-shadow: 5px 5px 10px 1px #c0bfbc;
+}
+
+.card a {
+    text-decoration: none;
+    color: rgb(66, 66, 66);
+}
+
+.btn {
+    background-color: burlywood;
+    border-color: darkgrey;
+    color: rgb(85, 85, 85);
+}
+
+.btn:hover {
+    background-color: rgb(252, 183, 94);
+    border-color: darkgrey;
+    color: rgb(54, 54, 54);
+}
+
+/* banner */
+.rightbar {
+    max-width: 100%;
+    overflow: hidden;
+
+    padding: 3px;
+
+}
+
+.rightbar>p {
+    margin: 3px;
+    margin-left: 13px;
+    padding: 3px;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 25px;
+
+}
+
+.imgban {
+    width: 100%;
+    height: auto;
+}
+
+/* popup buy */
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: #fcd055;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+.popup-content {
+    text-align: center;
+}
+
+.closePopupBtn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+@media (max-width: 900px) {
+    
+    .rightbar {
+        display: block;
+        justify-content: space-around;
+    }
+    .imgban {
+        width: 80%;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+        margin-top: 5px;
+    }
+
+    .rightbar>p {
+        display: block;
+        margin: 0 auto;
+        text-align: center;
+        margin-top: 5px;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .imgban {
+        width: 60%;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+        margin-top: 5px;
+    }
+
+    .rightbar>p {
+        display: block;
+        margin: 0 auto;
+        text-align: center;
+        margin-top: 5px;
+    }
+}

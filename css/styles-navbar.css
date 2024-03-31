@@ -1,0 +1,76 @@
+.navbar {
+    display: flex;
+    background-color: rgb(252, 216, 172);
+    justify-content: center;
+    padding: 0;
+}
+
+
+.navlist {
+    display: flex;
+}
+
+.navlist a {
+    display: block;
+    padding: 1em;
+    text-decoration: none;
+    color: rgb(76, 76, 76);
+}
+
+.navlist a:hover {
+    background-color: rgb(248, 228, 112);
+}
+
+.navbtn {
+    font-size: 2em;
+    padding-inline: 12px;
+    padding-bottom: 5px;
+    border: none;
+    background-color: rgb(251, 170, 72);
+    color: rgb(76, 76, 76);
+
+}
+/* Активная кнопка меню */
+.nav-link.active {
+    color: #808080;
+}
+
+/* БУРГЕР! */
+
+/* не отображает бургер */
+.navbtn { 
+    display: none;
+}
+/* отображает бургер начиная с определенной ширины */
+@media (max-width: 1000px) {
+    .navbtn {
+        font-size: 2em;
+        padding-inline: 12px;
+        padding: 7px;
+        padding-bottom: 8px;
+        border: none;
+        background-color: rgb(251, 170, 72);
+        color: rgb(76, 76, 76);
+        display: block;
+        cursor: pointer;
+        
+    }
+    .navlist {
+        display: none;
+    }
+    .navbtn:hover {
+        background-color: rgb(248, 228, 112);
+    }
+
+    
+    /* Тут при нажатии будет появляться меню блоком  из бургера */
+.dropmenu:hover .navlist {
+    display: block;
+    position: absolute;
+    right: 1px;
+    background-color: rgb(251, 170, 72)
+}
+    .navbar {
+    justify-content: space-between;
+} 
+}
