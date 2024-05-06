@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-=======
 
->>>>>>> 5b1f725e62d7de8e4d165bd9029065d68dc9bf5b
 <?php 
   include('templates/header.php'); // Подключаем шапку сайта
 ?>
@@ -29,13 +26,11 @@
             <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
               aria-label="Slide 3"></button>
           </div>
-<<<<<<< HEAD
           <!-- Убрал вывод приветствия, если пользователь не авторизован -->
           <?php if(isset($_SESSION['username'])) : ?>
             <p>Welcome <strong><?php echo $_SESSION['username']; ?></strong></p>
           <?php endif; ?>
-=======
->>>>>>> 5b1f725e62d7de8e4d165bd9029065d68dc9bf5b
+
           <div class="carousel-inner">
             <!-- Содержимое карусели -->
             <div class="carousel-item active">
@@ -155,28 +150,7 @@
           </div>
         </div>
       </section>
-<<<<<<< HEAD
 
-      <!-- Облако брендов -->
-      <div class="infoblock" id="brands">
-        <h2>Naši partneri</h2>
-        <div class="brand-cloud">
-          <!-- Вставляем изображения брендов -->
-          <img src="img/brands1.jpg" alt="Brand 1" class="brand-image">
-          <img src="img/brands2.jpg" alt="Brand 2" class="brand-image">
-          <img src="img/brands3.jpg" alt="Brand 1" class="brand-image">
-          <img src="img/brands4.jpg" alt="Brand 2" class="brand-image">
-          <img src="img/brands5.jpg" alt="Brand 3" class="brand-image">
-          <img src="img/brands6.jpg" alt="Brand 1" class="brand-image">
-          <img src="img/brands7.jpg" alt="Brand 2" class="brand-image">
-          <img src="img/brands8.jpg" alt="Brand 2" class="brand-image">
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-=======
->>>>>>> 5b1f725e62d7de8e4d165bd9029065d68dc9bf5b
 
       <!-- Облако брендов -->
       <div class="infoblock" id="brands">
@@ -197,10 +171,29 @@
   </div>
 </section>
 
-<<<<<<< HEAD
+
+
+      <!-- Облако брендов -->
+      <div class="infoblock" id="brands">
+        <h2>Naši partneri</h2>
+        <div class="brand-cloud">
+          <!-- Вставляем изображения брендов -->
+          <img src="img/brands1.jpg" alt="Brand 1" class="brand-image">
+          <img src="img/brands2.jpg" alt="Brand 2" class="brand-image">
+          <img src="img/brands3.jpg" alt="Brand 1" class="brand-image">
+          <img src="img/brands4.jpg" alt="Brand 2" class="brand-image">
+          <img src="img/brands5.jpg" alt="Brand 3" class="brand-image">
+          <img src="img/brands6.jpg" alt="Brand 1" class="brand-image">
+          <img src="img/brands7.jpg" alt="Brand 2" class="brand-image">
+          <img src="img/brands8.jpg" alt="Brand 2" class="brand-image">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
   
-=======
->>>>>>> 5b1f725e62d7de8e4d165bd9029065d68dc9bf5b
 <!-- Форма отзывов и таблица отзывов -->
 <section>
   <div class="infoblock">
@@ -239,7 +232,7 @@
         </div>
       </div>
     </div>
-<<<<<<< HEAD
+
     <!-- Таблица отзывов без столбцов ID, Edit и Delete -->
     <section style="margin-top: 50px;">
       <div class="container">
@@ -274,7 +267,7 @@
         </table>
       </div>
     </section>
-=======
+
 
 <!-- Таблица отзывов без столбцов ID, Edit и Delete -->
 <section style="margin-top: 50px;">
@@ -308,7 +301,7 @@
         ?>
       </tbody>
     </table>
->>>>>>> 5b1f725e62d7de8e4d165bd9029065d68dc9bf5b
+
   </div>
 </section>
 
