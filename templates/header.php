@@ -41,6 +41,9 @@ require_once "func/functions.php";
           <a class="nav-link" href="Katalog.php">Katalog</a>
           <a class="nav-link" href="recenzie.php">Recenzie</a>
           <a class="nav-link" href="kontacts.php">Kontacts</a>
+          <a class="login" href="phpusers/login.php">login</a>
+          <a class="nav-link" href="phpusers/register.php">register</a>
+          <a class="nav-link" href="phpusers/logout.php">logout</a>
         </div>
       </div>
     </div>
