@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> 5b1f725e62d7de8e4d165bd9029065d68dc9bf5b
 <?php 
   include('templates/header.php'); // Подключаем шапку сайта
 ?>
@@ -25,10 +29,13 @@
             <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
               aria-label="Slide 3"></button>
           </div>
+<<<<<<< HEAD
           <!-- Убрал вывод приветствия, если пользователь не авторизован -->
           <?php if(isset($_SESSION['username'])) : ?>
             <p>Welcome <strong><?php echo $_SESSION['username']; ?></strong></p>
           <?php endif; ?>
+=======
+>>>>>>> 5b1f725e62d7de8e4d165bd9029065d68dc9bf5b
           <div class="carousel-inner">
             <!-- Содержимое карусели -->
             <div class="carousel-item active">
@@ -148,6 +155,28 @@
           </div>
         </div>
       </section>
+<<<<<<< HEAD
+
+      <!-- Облако брендов -->
+      <div class="infoblock" id="brands">
+        <h2>Naši partneri</h2>
+        <div class="brand-cloud">
+          <!-- Вставляем изображения брендов -->
+          <img src="img/brands1.jpg" alt="Brand 1" class="brand-image">
+          <img src="img/brands2.jpg" alt="Brand 2" class="brand-image">
+          <img src="img/brands3.jpg" alt="Brand 1" class="brand-image">
+          <img src="img/brands4.jpg" alt="Brand 2" class="brand-image">
+          <img src="img/brands5.jpg" alt="Brand 3" class="brand-image">
+          <img src="img/brands6.jpg" alt="Brand 1" class="brand-image">
+          <img src="img/brands7.jpg" alt="Brand 2" class="brand-image">
+          <img src="img/brands8.jpg" alt="Brand 2" class="brand-image">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+=======
+>>>>>>> 5b1f725e62d7de8e4d165bd9029065d68dc9bf5b
 
       <!-- Облако брендов -->
       <div class="infoblock" id="brands">
@@ -168,8 +197,10 @@
   </div>
 </section>
 
-
+<<<<<<< HEAD
   
+=======
+>>>>>>> 5b1f725e62d7de8e4d165bd9029065d68dc9bf5b
 <!-- Форма отзывов и таблица отзывов -->
 <section>
   <div class="infoblock">
@@ -208,6 +239,7 @@
         </div>
       </div>
     </div>
+<<<<<<< HEAD
     <!-- Таблица отзывов без столбцов ID, Edit и Delete -->
     <section style="margin-top: 50px;">
       <div class="container">
@@ -242,8 +274,64 @@
         </table>
       </div>
     </section>
+=======
+
+<!-- Таблица отзывов без столбцов ID, Edit и Delete -->
+<section style="margin-top: 50px;">
+  <div class="container">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Meno</th>
+          <th>Hodnotenie</th>
+          <th>Text</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php 
+          require_once "conn.php";
+          $sql_query = "SELECT * FROM recenzije";
+          if ($result = $conn->query($sql_query)) {
+            while ($row = $result->fetch_assoc()) { 
+              $Meno = $row['Meno'];
+              $hodnotenia = $row['hodnotenia']; // Измените на $hodnotenia, чтобы совпадало с вашей базой данных
+              $text = $row['text'];
+        ?>
+        <tr class="trow">
+          <td><?php echo $Meno; ?></td>
+          <td><?php echo $hodnotenia; ?></td>
+          <td><?php echo $text; ?></td>
+        </tr>
+        <?php
+            } 
+          } 
+        ?>
+      </tbody>
+    </table>
+>>>>>>> 5b1f725e62d7de8e4d165bd9029065d68dc9bf5b
   </div>
 </section>
+
+
+<?php
+require "templates/footer.php"; // Подключаем подвал сайта
+?>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+  integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
+  crossorigin="anonymous"></script>
+
+<script src="js/logo.js"></script>
+
+<script>
+  function hidePopup() {
+    document.getElementById('cookiePopup').style.display = 'none';
+  }
+
+  window.onload = function () {
+    document.getElementById('cookiePopup').style.display = 'block';
+  };
+</script>
 
 
 <?php
