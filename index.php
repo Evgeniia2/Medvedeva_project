@@ -167,9 +167,9 @@
     </div>
   </div>
 </section>
-
-
   
+
+
 <!-- Форма отзывов и таблица отзывов -->
 <section>
   <div class="infoblock">
@@ -243,7 +243,7 @@
       </div>
     </section>
   </div>
-</section>
+</section>  
 
 
 <?php

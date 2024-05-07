@@ -20,9 +20,7 @@
             } else {
                 echo "Something went wrong. Please try again later."; // Выводим сообщение об ошибке, если запрос не выполнен
             }
-        } else {
-
-            
+        } else {          
             echo "Meno, Class, and text cannot be empty!"; // Выводим сообщение, если какое-то из полей не заполнено
         }
     }
