@@ -1,24 +1,9 @@
-<?php
-include "templates/header.php";
+<?php 
+  include('templates/header.php'); // Подключаем шапку сайта
 ?>
 
-
 <body>
-  <div class="navbar fixed-top">
-    <img src="img/logo.png" alt="Logo" class="logo">
-    <div class="dropmenu">
-      <!-- kreative кодом ниже делается изображение (бургер). так можно вставить хоть телефончик -->
-      <button class="navbtn">&#9776;</button>
-      <div class="navlist">
 
-        <a class="nav-link" href="index.php">Main</a>
-        <a class="nav-link active" href="Katalog.php">Katalog</a>
-        <a class="nav-link" href="recenzie.php">Recenzie</a>
-        <a class="nav-link" href="kontacts.php">Kontacts</a>
-      </div>
-    </div>
-
-  </div>
   <!-- начало карточек товара. сделано с помощью grid bootstrap. -->
   <section>
     <div class="container-fluid" style="margin-top: 75px;">
