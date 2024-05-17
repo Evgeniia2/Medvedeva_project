@@ -1,46 +1,37 @@
 <?php
-// Проверяем, активна ли уже сессия
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-// Подключение файла с конфигурацией базы данных
 require_once 'server.php';
 
-$errors = array(); // Массив для хранения ошибок
+$errors = array();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Получение данных из формы входа
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    $username = mysqli_real_escape_string($db, $_POST['username']);
+    $password = mysqli_real_escape_string($db, $_POST['password']);
 
-    // Проверка, чтобы данные не содержали SQL инъекции
-    $username = mysqli_real_escape_string($conn, $username);
-    $password = mysqli_real_escape_string($conn, $password);
+    if (empty($username)) {
+        array_push($errors, "Username is required");
+    }
+    if (empty($password)) {
+        array_push($errors, "Password is required");
+    }
 
-    // Хэширование пароля
-    $password = md5($password);
+    if (count($errors) == 0) {
+        $password = md5($password);
+        $query = "SELECT * FROM users WHERE username='$username' AND password='$password'";
+        $results = mysqli_query($db, $query);
 
-    // Подготовка SQL запроса для выборки пользователя из базы данных
-    $sql = "SELECT * FROM users WHERE username='$username' AND password='$password' LIMIT 1";
-
-    // Выполнение SQL запроса
-    $result = mysqli_query($conn, $sql);
-
-    // Проверка наличия результата и соответствия логина и пароля
-    if ($result) {
-        if (mysqli_num_rows($result) == 1) {
-            // Если логин и пароль верные, устанавливаем сессию и перенаправляем пользователя
+        if (mysqli_num_rows($results) == 1) {
+            $logged_in_user = mysqli_fetch_assoc($results);
             $_SESSION['username'] = $username;
-            //header('Location: index.php');
-            exit();
+            $_SESSION['role'] = $logged_in_user['role'];
+            $_SESSION['success'] = "You are now logged in";
+            header('location: ../index.php');
         } else {
-            // Если пользователь не найден, добавляем ошибку
-            $errors['login'] = 'Неверное имя пользователя или пароль';
+            array_push($errors, "Wrong username/password combination");
         }
-    } else {
-        // Если произошла ошибка при выполнении запроса, добавляем ошибку
-        $errors['login'] = 'Ошибка при выполнении запроса к базе данных: ' . mysqli_error($conn);
     }
 }
 ?>
@@ -57,9 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   </div>
          
   <form method="post" action="login.php">
-        <?php if (isset($errors['login'])) : ?>
-            <div class="error"><?php echo $errors['login']; ?></div>
-        <?php endif; ?>
+        <?php include('errors.php'); ?>
         <div class="input-group">
                 <label>Username</label>
                 <input type="text" name="username" >

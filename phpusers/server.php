@@ -1,6 +1,7 @@
-
-
 <?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 
 // initializing variables
 $username = "";
@@ -17,9 +18,9 @@ if (isset($_POST['reg_user'])) {
   $email = mysqli_real_escape_string($db, $_POST['email']);
   $password_1 = mysqli_real_escape_string($db, $_POST['password_1']);
   $password_2 = mysqli_real_escape_string($db, $_POST['password_2']);
+  $role = 1; // Роль по умолчанию для новых пользователей
 
   // form validation: ensure that the form is correctly filled ...
-  // by adding (array_push()) corresponding error unto $errors array
   if (empty($username)) { array_push($errors, "Username is required"); }
   if (empty($email)) { array_push($errors, "Email is required"); }
   if (empty($password_1)) { array_push($errors, "Password is required"); }
@@ -39,7 +40,7 @@ if (isset($_POST['reg_user'])) {
     }
 
     if ($user['email'] === $email) {
-      array_push($errors, "email already exists");
+      array_push($errors, "Email already exists");
     }
   }
 
@@ -47,12 +48,13 @@ if (isset($_POST['reg_user'])) {
   if (count($errors) == 0) {
         $password = md5($password_1);//encrypt the password before saving in the database
 
-        $query = "INSERT INTO users (username, email, password) 
-                          VALUES('$username', '$email', '$password')";
+        $query = "INSERT INTO users (username, email, password, role) 
+                  VALUES('$username', '$email', '$password', '$role')";
         mysqli_query($db, $query);
         $_SESSION['username'] = $username;
+        $_SESSION['role'] = $role; // Добавляем роль в сессию
         $_SESSION['success'] = "You are now logged in";
-        header('location: ../index.php');
+        header('location: index.php'); // Убедимся, что путь верный
   }
 }
 
@@ -73,12 +75,37 @@ if (isset($_POST['login_user'])) {
         $query = "SELECT * FROM users WHERE username='$username' AND password='$password'";
         $results = mysqli_query($db, $query);
         if (mysqli_num_rows($results) == 1) {
+          $logged_in_user = mysqli_fetch_assoc($results);
           $_SESSION['username'] = $username;
+          $_SESSION['role'] = $logged_in_user['role']; // Добавляем роль в сессию
           $_SESSION['success'] = "You are now logged in";
-          header('location: ../index.php');
-        }else {
-                array_push($errors, "Wrong username/password combination");
+          header('location: index.php'); // Убедимся, что путь верный
+        } else {
+          array_push($errors, "Wrong username/password combination");
         }
   }
+}
+
+// Проверка роли перед выполнением операции
+function check_role($required_role) {
+    global $errors;
+    if (!isset($_SESSION['role']) || $_SESSION['role'] < $required_role) {
+        array_push($errors, "Insufficient permissions");
+        header('location: error.php'); // Перенаправление на страницу ошибки
+        exit();
+    }
+}
+
+// Пример использования проверки ролей
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['add_review'])) {
+        check_role(1); // Только зарегистрированные пользователи могут добавлять отзывы
+        // Код для добавления отзыва
+    }
+
+    if (isset($_POST['delete_review'])) {
+        check_role(2); // Только администраторы могут удалять отзывы
+        // Код для удаления отзыва
+    }
 }
 ?>

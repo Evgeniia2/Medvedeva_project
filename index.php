@@ -1,23 +1,19 @@
 <?php 
-  include('templates/header.php'); // Подключаем шапку сайта
-?>
+include('templates/header.php'); 
+session_start();
 
-<!-- Creative popup -->
-<div class="popup-container" id="cookiePopup">
-  <p>Používame súbory cookie na zlepšenie vášho zážitku na webe. Pokračovaním v používaní tohto webu súhlasíte s
-    používaním súborov cookie.</p>
-  <a href="#" class="popup-button" onclick="hidePopup()">Prijať</a>
-</div>
+// Устанавливаем роль по умолчанию, если она не установлена
+if (!isset($_SESSION['role'])) {
+    $_SESSION['role'] = 0; 
+}
+?>
 
 <section>
   <div class="main-container">
     <div class="container">
-      <!-- Карусель -->
       <div class="carousel">
-        <!-- Определяем карусель -->
         <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="false">
           <div class="carousel-indicators">
-            <!-- Индикаторы -->
             <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
               aria-current="true" aria-label="Slide 1"></button>
             <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
@@ -25,39 +21,32 @@
             <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
               aria-label="Slide 3"></button>
           </div>
-          <!-- Убрал вывод приветствия, если пользователь не авторизован -->
           <?php if(isset($_SESSION['username'])) : ?>
             <p>Welcome <strong><?php echo $_SESSION['username']; ?></strong></p>
           <?php endif; ?>
           <div class="carousel-inner">
-            <!-- Содержимое карусели -->
             <div class="carousel-item active">
-              <!-- Первый слайд -->
               <img src="img/carousel/cream3k.jpg" class="d-block w-100 " alt="Creams">
               <div class="carousel-caption d-none d-md-block">
-                <!-- Заголовок и текст слайда -->
                 <h5>Krémy</h5>
-                <p>Krém je základom starostlivosti o pleť! Bez krému to nejde. My ich tiež predávame! Prečítajte si popisy produktov!</p>
+                <p>Krém je základom starostlivosti o pleť! Bez krému to nejde. My ich tiež predávame! Prečítajte si popisy produktов!</p>
               </div>
             </div>
             <div class="carousel-item">
-              <!-- Второй слайд -->
               <img src="img/carousel/Mydlo2k.jpg" class="d-block w-100 " alt="Mydlo">
               <div class="carousel-caption d-none d-md-block">
                 <h5>Mydla</h5>
-                <p>Predávame úžasné autorské mydlá. Kúpte si ich!</p>
+                <p>Предаём отличное авторское мыло. Купите его!</p>
               </div>
             </div>
             <div class="carousel-item">
-              <!-- Третий слайд -->
               <img src="img/carousel/Shampoo1k.jpg" class="d-block w-100 " alt="Shampon">
               <div class="carousel-caption d-none d-md-block">
                 <h5>šampón</h5>
-                <p>Predáme úžasné šampóny, určite si prečítajte ich popisy.</p>
+                <p>Продамо отличные шампуни, обязательно прочтите их описания.</p>
               </div>
             </div>
           </div>
-          <!-- Кнопки управления каруселью -->
           <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
             data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -71,13 +60,10 @@
         </div>
       </div>
 
-      <!-- Описание преимуществ -->
       <section>
         <div class="infoblock">
           <h2>Naše výhody</h2>
-          <!-- Аккордеон -->
           <div class="accordion" id="accordionExample">
-            <!-- Пункт аккордеона 1 -->
             <div class="accordion-item">
               <h2 class="accordion-header" id="headingOne">
                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
@@ -89,17 +75,14 @@
                 data-bs-parent="#accordionExample">
                 <div class="accordion-body">
                   <strong>Rýchla doprava nie je len pohodlie, ale aj úspora času.</strong>
-                  <!-- Текст аккордеона 1 -->
-                  Ak si objednáte mydlo ráno, už večer si ho môžete vychutnať vo svojej kúpeľni. To je obzvlášť
-                  dôležité
-                  pre ľudí, ktorí žijú vo veľkých mestách, kde sú často zápchy na cestách.
-                  Okrem toho vám rýchla doprava umožňuje byť si istí, že mydlo bude doručené v poriadku. Používame len
-                  spoľahlivé kuriérske služby, ktoré garantujú bezpečnosť vašich objednávok.
-                  Objednajte si autorské mydlo s rýchlou dopravou a získajte ho už dnes!
+                  Ak si objednáte mydlo ráno, už večer si ho môžete vychutnať vo svojej kúpeľni. То je obzvlášť
+                  dôležité pre ľudí, ktorí žijú vo veľkých mestách, kde sú často zápchy на cestách.
+                  Okrem toho vám rýchla doprava umožňuje byť si istí, že mydlo bude doručené в порядке. Používame len
+                  spoľahlivé kuriérske služby, ktoré garantujú bezpečnosť vašich objednávок.
+                  Заказывайте авторское мыло с быстрой доставкой и получите его уже сегодня!
                 </div>
               </div>
             </div>
-            <!-- Пункт аккордеона 2 -->
             <div class="accordion-item">
               <h2 class="accordion-header" id="headingTwo">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -110,17 +93,13 @@
               <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
                 data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                  <!-- Текст аккордеона 2 -->
-                  Ponúkame našim zákazníkom konštantné zľavy na všetky naše produkty. To znamená, že vždy môžete
-                  ušetriť
-                  peniaze, keď nakupujete u nás.
-                  Naše zľavy sú dostupné všetkým našim zákazníkom, bez ohľadu na to, ako často nakupujú. To z nich
-                  robí
-                  spravodlivý a dostupný spôsob, ako ušetriť peniaze.
+                  Мы предлагаем нашим клиентам постоянные скидки на все наши продукты. Это означает, что вы всегда можете
+                  сэкономить деньги, когда покупаете у нас.
+                  Наши скидки доступны всем нашим клиентам, независимо от того, как часто они покупают. Это делает их
+                  справедливым и доступным способом сэкономить деньги.
                 </div>
               </div>
             </div>
-            <!-- Пункт аккордеона 3 -->
             <div class="accordion-item">
               <h2 class="accordion-header" id="headingThree">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -131,17 +110,13 @@
               <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
                 data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                  <!-- Текст аккордеона 3 -->
-                  Sme hrdí na to, že naše produkty sú vyrábané s láskou. Používame iba prírodné ingrediencie a ručnú
-                  prácu, aby sme vytvorili výrobky, ktoré vás potešia svojou kvalitou a vôňou.
-                  Vieme, že si ceníte jedinečné a vysokokvalitné produkty, preto venujeme osobitnú pozornosť každej
-                  fáze
-                  výroby. Používame iba čerstvé, prírodné ingrediencie, ktoré starostlivo vyberáme. Okrem toho
-                  používame
-                  ručnú prácu, aby boli naše produkty čo najkvalitnejšie a najuniverzálnejšie.
-                  Veríme, že láska k práci sa odráža v konečnom produkte. Naše produkty sú vyrobené s láskou a to
-                  cítiť
-                  už pri prvom dotyku.
+                  Sme hrdí на то, что наши продукты sú vyrábané с láskou. Používame iba prírodné ingrediencie и ručnú
+                  prácу, aby sme vytvorили výrobky, которые vás potešia svojou kvalitou и vôňou.
+                  Vieme, že si ceníte jedinečné и высококвалитные продукты, preto venujeme osobitnú позornosť každej
+                  fáze výroby. Používame iba čerstvé, prírodné ingrediencie, которые starostlivo vyberáme. Okrem toho
+                  používame ručnú prácу, aby были наши produkty čo найквалитнейшие и найуниверзальнейšie.
+                  Veríme, что láska к práci sa odráža в конечном продукте. Наши продукты sú vyrobené с láskou и то
+                  cítiť už pri prvом dotyku.
                 </div>
               </div>
             </div>
@@ -149,11 +124,9 @@
         </div>
       </section>
 
-      <!-- Облако брендов -->
       <div class="infoblock" id="brands">
         <h2>Naši partneri</h2>
         <div class="brand-cloud">
-          <!-- Вставляем изображения брендов -->
           <img src="img/brands1.jpg" alt="Brand 1" class="brand-image">
           <img src="img/brands2.jpg" alt="Brand 2" class="brand-image">
           <img src="img/brands3.jpg" alt="Brand 1" class="brand-image">
@@ -167,16 +140,12 @@
     </div>
   </div>
 </section>
-  
 
-
-<!-- Форма отзывов и таблица отзывов -->
 <section>
   <div class="infoblock">
     <h2>Spokojní zákazníci</h2>
     <div class="testimonial-preview">
       <div class="testimonial-content">
-        <!-- Форма для отправки отзыва -->
         <div class="container">
           <form action="adddata.php" method="post">
             <div class="row">
@@ -188,7 +157,6 @@
                 <label for="fakulty">hodnotenia</label>
                 <select name="fakulty" id="fakulty" class="form-control" required>
                   <option value="">hodnotenia</option>
-                  <!-- Опции для выбора оценки -->
                   <option value="1">1</option>
                   <option value="2">2</option>
                   <option value="3">3</option>
@@ -208,7 +176,6 @@
         </div>
       </div>
     </div>
-    <!-- Таблица отзывов без столбцов ID, Edit и Delete -->
     <section style="margin-top: 50px;">
       <div class="container">
         <table class="table table-striped">
@@ -217,6 +184,10 @@
               <th>Meno</th>
               <th>Hodnotenie</th>
               <th>Text</th>
+              <?php if ($_SESSION['role'] == 2): ?>
+              <th>Edit</th>
+              <th>Delete</th>
+              <?php endif; ?>
             </tr>
           </thead>
           <tbody>
@@ -226,13 +197,18 @@
               if ($result = $conn->query($sql_query)) {
                 while ($row = $result->fetch_assoc()) { 
                   $Meno = $row['Meno'];
-                  $hodnotenia = $row['hodnotenia']; // Измените на $hodnotenia, чтобы совпадало с вашей базой данных
+                  $hodnotenia = $row['hodnotenia'];
                   $text = $row['text'];
+                  $id = $row['id'];
             ?>
             <tr class="trow">
               <td><?php echo $Meno; ?></td>
               <td><?php echo $hodnotenia; ?></td>
               <td><?php echo $text; ?></td>
+              <?php if ($_SESSION['role'] == 2): ?>
+              <td><a href="adddata.php?id=<?php echo $id; ?>">Edit</a></td>
+              <td><a href="delete.php?id=<?php echo $id; ?>">Delete</a></td>
+              <?php endif; ?>
             </tr>
             <?php
                 } 
@@ -243,8 +219,7 @@
       </div>
     </section>
   </div>
-</section>  
-
+</section>
 
 <?php
 require "templates/footer.php"; // Подключаем подвал сайта
@@ -267,5 +242,4 @@ require "templates/footer.php"; // Подключаем подвал сайта
 </script>
 
 </body>
-
 </html>
