@@ -29,7 +29,7 @@ if (!isset($_SESSION['role'])) {
               <img src="img/carousel/cream3k.jpg" class="d-block w-100 " alt="Creams">
               <div class="carousel-caption d-none d-md-block">
                 <h5>Krémy</h5>
-                <p>Krém je základom starostlivosti o pleť! Bez krému to nejde. My ich tiež predávame! Prečítajte si popisy produktов!</p>
+                <p>Krém je základom starostlivosti o pleť! Bez krému to nejde. My ich tiež predávame! Prečítajte si popisy продуктov!</p>
               </div>
             </div>
             <div class="carousel-item">
@@ -75,9 +75,9 @@ if (!isset($_SESSION['role'])) {
                 data-bs-parent="#accordionExample">
                 <div class="accordion-body">
                   <strong>Rýchla doprava nie je len pohodlie, ale aj úspora času.</strong>
-                  Ak si objednáte mydlo ráno, už večer si ho môžete vychutnať vo svojej kúpeľni. То je obzvlášť
-                  dôležité pre ľudí, ktorí žijú vo veľkých mestách, kde sú často zápchy на cestách.
-                  Okrem toho vám rýchla doprava umožňuje byť si istí, že mydlo bude doručené в порядке. Používame len
+                  Ak si objednáte mydlo ráno, už večer si ho môžete vychutnať vo svojej kúpeľni. То je обzvlášť
+                  dôležité pre ľudí, ktorí žijú во veľkých mestách, kde sú často zápchy на cestách.
+                  Okrem того вам rýchla doprava umožňuje byť si istí, что mydlo bude doručené в порядке. Používame len
                   spoľahlivé kuriérske služby, ktoré garantujú bezpečnosť vašich objednávок.
                   Заказывайте авторское мыло с быстрой доставкой и получите его уже сегодня!
                 </div>
@@ -110,13 +110,13 @@ if (!isset($_SESSION['role'])) {
               <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
                 data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                  Sme hrdí на то, что наши продукты sú vyrábané с láskou. Používame iba prírodné ingrediencie и ručnú
-                  prácу, aby sme vytvorили výrobky, которые vás potešia svojou kvalitou и vôňou.
-                  Vieme, že si ceníte jedinečné и высококвалитные продукты, preto venujeme osobitnú позornosť každej
-                  fáze výroby. Používame iba čerstvé, prírodné ingrediencie, которые starostlivo vyberáme. Okrem toho
-                  používame ručnú prácу, aby были наши produkty čo найквалитнейшие и найуниверзальнейšie.
-                  Veríme, что láska к práci sa odráža в конечном продукте. Наши продукты sú vyrobené с láskou и то
-                  cítiť už pri prvом dotyku.
+                  Sme hrdí на то, что наши produkty sú vyrábané с láskou. Používame iba prírodné ingrediencie и ručnú
+                  prácу, aby sme vytворили výrobки, которые vás potešia svojou kvalitou и vôňou.
+                  Vieme, что si ceníte jedinečné и висококвалитные produkty, preto venujeme особитну позорность každej
+                  fáze výroby. Používame iba čerstве, príродне ingrediencie, ktoré starostlivo vyberáme. Okrem того
+                  používаме ručnú prácу, aby були наші продукти čo найквалитнейші і найуниверзальнейші.
+                  Veríme, že lásка к práci sa odráža в конечном продукте. Наши продукти sú vyrobené с láskou і то
+                  cítiť už при prvом dotyку.
                 </div>
               </div>
             </div>
@@ -147,32 +147,36 @@ if (!isset($_SESSION['role'])) {
     <div class="testimonial-preview">
       <div class="testimonial-content">
         <div class="container">
-          <form action="adddata.php" method="post">
-            <div class="row">
-              <div class="form-group col-lg-4">
-                <label for="Meno">Meno</label>
-                <input type="text" name="Meno" id="Meno" class="form-control" required>
+          <?php if (isset($_SESSION['username'])): ?>
+            <form action="adddata.php" method="post">
+              <div class="row">
+                <div class="form-group col-lg-4">
+                  <label for="Meno">Meno</label>
+                  <input type="text" name="Meno" id="Meno" class="form-control" required>
+                </div>
+                <div class="form-group col-lg-3">
+                  <label for="fakulty">hodnotenia</label>
+                  <select name="fakulty" id="fakulty" class="form-control" required>
+                    <option value="">hodnotenia</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                  </select>
+                </div>
+                <div class="form-group col-lg-5">
+                  <label for="text">Text</label>
+                  <textarea name="text" id="text" class="form-control" required></textarea>
+                </div>
+                <div class="form-group col-lg-2" style="display: grid;align-items: flex-end;">
+                  <input type="submit" name="submit" id="submit" class="btn btn-primary">
+                </div>
               </div>
-              <div class="form-group col-lg-3">
-                <label for="fakulty">hodnotenia</label>
-                <select name="fakulty" id="fakulty" class="form-control" required>
-                  <option value="">hodnotenia</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                </select>
-              </div>
-              <div class="form-group col-lg-5">
-                <label for="text">Text</label>
-                <textarea name="text" id="text" class="form-control" required></textarea>
-              </div>
-              <div class="form-group col-lg-2" style="display: grid;align-items: flex-end;">
-                <input type="submit" name="submit" id="submit" class="btn btn-primary">
-              </div>
-            </div>
-          </form>
+            </form>
+          <?php else: ?>
+            <p>Ak chcete zanechať recenziu, musíte sa zaregistrovať</p>
+          <?php endif; ?>
         </div>
       </div>
     </div>
@@ -207,7 +211,7 @@ if (!isset($_SESSION['role'])) {
               <td><?php echo $text; ?></td>
               <?php if ($_SESSION['role'] == 2): ?>
               <td><a href="adddata.php?id=<?php echo $id; ?>">Edit</a></td>
-              <td><a href="delete.php?id=<?php echo $id; ?>">Delete</a></td>
+              <td><a href="deletedata.php?id=<?php echo $id; ?>">Delete</a></td>
               <?php endif; ?>
             </tr>
             <?php

@@ -54,7 +54,7 @@ if (isset($_POST['reg_user'])) {
         $_SESSION['username'] = $username;
         $_SESSION['role'] = $role; // Добавляем роль в сессию
         $_SESSION['success'] = "You are now logged in";
-        header('location: index.php'); // Убедимся, что путь верный
+        header('location: ../index.php'); // Убедимся, что путь верный
   }
 }
 
@@ -79,7 +79,7 @@ if (isset($_POST['login_user'])) {
           $_SESSION['username'] = $username;
           $_SESSION['role'] = $logged_in_user['role']; // Добавляем роль в сессию
           $_SESSION['success'] = "You are now logged in";
-          header('location: index.php'); // Убедимся, что путь верный
+          header('location: ../index.php'); // Убедимся, что путь верный
         } else {
           array_push($errors, "Wrong username/password combination");
         }
