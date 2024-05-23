@@ -7,7 +7,11 @@ if (!isset($_SESSION['role'])) {
     $_SESSION['role'] = 0; 
 }
 ?>
-
+  <div class="popup-container" id="cookiePopup">
+    <p>Používame súbory cookie na zlepšenie vášho zážitku na webe. Pokračovaním v používaní tohto webu súhlasíte s
+      používaním súborov cookie.</p>
+    <a href="#" class="popup-button" onclick="hidePopup()">Prijať</a>
+  </div>
 <section>
   <div class="main-container">
     <div class="container">
@@ -29,21 +33,21 @@ if (!isset($_SESSION['role'])) {
               <img src="img/carousel/cream3k.jpg" class="d-block w-100 " alt="Creams">
               <div class="carousel-caption d-none d-md-block">
                 <h5>Krémy</h5>
-                <p>Krém je základom starostlivosti o pleť! Bez krému to nejde. My ich tiež predávame! Prečítajte si popisy продуктov!</p>
+                <p>Krém je základom starostlivosti o pleť! Bez krému to nejde. My ich tiež predávame! Prečítajte si popisy produktov!</p>
               </div>
             </div>
             <div class="carousel-item">
               <img src="img/carousel/Mydlo2k.jpg" class="d-block w-100 " alt="Mydlo">
               <div class="carousel-caption d-none d-md-block">
                 <h5>Mydla</h5>
-                <p>Предаём отличное авторское мыло. Купите его!</p>
+                <p>Predávame úžasné autorské mydlá. Kúpte si ich!</p>
               </div>
             </div>
             <div class="carousel-item">
               <img src="img/carousel/Shampoo1k.jpg" class="d-block w-100 " alt="Shampon">
               <div class="carousel-caption d-none d-md-block">
                 <h5>šampón</h5>
-                <p>Продамо отличные шампуни, обязательно прочтите их описания.</p>
+                <p>Predáme úžasné šampóny, určite si prečítajte ich popisy.</p>
               </div>
             </div>
           </div>
@@ -75,11 +79,15 @@ if (!isset($_SESSION['role'])) {
                 data-bs-parent="#accordionExample">
                 <div class="accordion-body">
                   <strong>Rýchla doprava nie je len pohodlie, ale aj úspora času.</strong>
-                  Ak si objednáte mydlo ráno, už večer si ho môžete vychutnať vo svojej kúpeľni. То je обzvlášť
-                  dôležité pre ľudí, ktorí žijú во veľkých mestách, kde sú často zápchy на cestách.
-                  Okrem того вам rýchla doprava umožňuje byť si istí, что mydlo bude doručené в порядке. Používame len
-                  spoľahlivé kuriérske služby, ktoré garantujú bezpečnosť vašich objednávок.
-                  Заказывайте авторское мыло с быстрой доставкой и получите его уже сегодня!
+
+                  Ak si objednáte mydlo ráno, už večer si ho môžete vychutnať vo svojej kúpeľni. To je obzvlášť
+                  dôležité
+                  pre ľudí, ktorí žijú vo veľkých mestách, kde sú často zápchy na cestách.
+
+                  Okrem toho vám rýchla doprava umožňuje byť si istí, že mydlo bude doručené v poriadku. Používame len
+                  spoľahlivé kuriérske služby, ktoré garantujú bezpečnosť vašich objednávok.
+
+                  Objednajte si autorské mydlo s rýchlou dopravou a získajte ho už dnes!
                 </div>
               </div>
             </div>
@@ -93,10 +101,13 @@ if (!isset($_SESSION['role'])) {
               <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
                 data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                  Мы предлагаем нашим клиентам постоянные скидки на все наши продукты. Это означает, что вы всегда можете
-                  сэкономить деньги, когда покупаете у нас.
-                  Наши скидки доступны всем нашим клиентам, независимо от того, как часто они покупают. Это делает их
-                  справедливым и доступным способом сэкономить деньги.
+                    Ponúkame našim zákazníkom konštantné zľavy na všetky naše produkty. To znamená, že vždy môžete
+                    ušetriť
+                    peniaze, keď nakupujete u nás.
+
+                    Naše zľavy sú dostupné všetkým našim zákazníkom, bez ohľadu na to, ako často nakupujú. To z nich
+                    robí
+                    spravodlivý a dostupný spôsob, ako ušetriť peniaze.
                 </div>
               </div>
             </div>
@@ -110,13 +121,18 @@ if (!isset($_SESSION['role'])) {
               <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
                 data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                  Sme hrdí на то, что наши produkty sú vyrábané с láskou. Používame iba prírodné ingrediencie и ručnú
-                  prácу, aby sme vytворили výrobки, которые vás potešia svojou kvalitou и vôňou.
-                  Vieme, что si ceníte jedinečné и висококвалитные produkty, preto venujeme особитну позорность každej
-                  fáze výroby. Používame iba čerstве, príродне ingrediencie, ktoré starostlivo vyberáme. Okrem того
-                  používаме ručnú prácу, aby були наші продукти čo найквалитнейші і найуниверзальнейші.
-                  Veríme, že lásка к práci sa odráža в конечном продукте. Наши продукти sú vyrobené с láskou і то
-                  cítiť už при prvом dotyку.
+                    Sme hrdí na to, že naše produkty sú vyrábané s láskou. Používame iba prírodné ingrediencie a ručnú
+                    prácu, aby sme vytvorili výrobky, ktoré vás potešia svojou kvalitou a vôňou.
+
+                    Vieme, že si ceníte jedinečné a vysokokvalitné produkty, preto venujeme osobitnú pozornosť každej
+                    fáze
+                    výroby. Používame iba čerstvé, prírodné ingrediencie, ktoré starostlivo vyberáme. Okrem toho
+                    používame
+                    ručnú prácu, aby boli naše produkty čo najkvalitnejšie a najuniverzálnejšie.
+
+                    Veríme, že láska k práci sa odráža v konečnom produkte. Naše produkty sú vyrobené s láskou a to
+                    cítiť
+                    už pri prvom dotyku.
                 </div>
               </div>
             </div>

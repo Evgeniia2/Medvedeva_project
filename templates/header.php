@@ -1,4 +1,5 @@
 <?php
+session_start(); // Добавляем сессию для проверки ролей
 require_once "func/functions.php";
 ?>
 <!DOCTYPE html>
@@ -19,13 +20,7 @@ require_once "func/functions.php";
   <link rel="icon" type="image/x-icon" href="/img/logo.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simplelightbox/2.1.0/simple-lightbox.min.css">
   
-  <title><?php 'index | '. (basename($_SERVER["SCRIPT_NAME"], '.php'));?>
-  </title>
-    <?php 
-  //add_stylesheet(); 
-    ?> 
-   
-
+  <title><?php echo 'index | ' . (basename($_SERVER["SCRIPT_NAME"], '.php')); ?></title>
 </head>
 
 <body>
@@ -36,16 +31,29 @@ require_once "func/functions.php";
         <!-- kreative кодом ниже делается изображение (бургер). определенным кодом вставляется определенная картинка -->
         <button class="navbtn">&#9776;</button>
         <div class="navlist">
-
-          <a class="nav-link active" href="index.php">Main</a>
+          <a class="nav-link active" href="index.php">Krémy</a>
           <a class="nav-link" href="Katalog.php">Katalog</a>
           <a class="nav-link" href="recenzie.php">Recenzie</a>
           <a class="nav-link" href="kontacts.php">Kontacts</a>
-          <a class="login" href="phpusers/login.php">login</a>
-          <a class="nav-link" href="phpusers/register.php">register</a>
-          <a class="nav-link" href="phpusers/logout.php">logout</a>
+
+          <!-- Показывать ссылки на вход и регистрацию только для гостей -->
+          <?php if (!isset($_SESSION['role'])) : ?>
+            <a class="login" href="phpusers/login.php">prihlásit sa</a>
+            <a class="nav-link" href="phpusers/register.php">Registrácia</a>
+          <?php endif; ?>
+          
+          <!-- Показывать ссылку на выход только для вошедших пользователей -->
+          <?php if (isset($_SESSION['role'])) : ?>
+            <a class="nav-link" href="phpusers/logout.php">odhlásenie</a>
+          <?php endif; ?>
+
+          <!-- Добавить ссылку для администраторов с ролью 2 -->
+          <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 2) : ?>
+            <a class="nav-link" href="admin/messages.php">Zobraziť správy</a>
+          <?php endif; ?>
         </div>
       </div>
     </div>
   </header>
-  
+</body>
+</html>
