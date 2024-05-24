@@ -7,7 +7,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_SESSION['username'])) {
         // Получаем данные из сессии
         $username = $_SESSION['username'];
-        $email = $_SESSION['email'];
+        // Проверяем наличие ключа 'email' в сессии
+        if (isset($_SESSION['email'])) {
+            $email = $_SESSION['email'];
+        } else {
+            // Если ключ 'email' отсутствует, выводим сообщение об ошибке и прекращаем выполнение
+            die("Email nie je zadaný v relácii. Prosím, prihláste sa znova.");
+        }
         $message = $_POST["message"];
 
         // Выполняем запрос на получение user_id по username из таблицы users

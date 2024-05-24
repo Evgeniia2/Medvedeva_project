@@ -52,11 +52,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <form method="post" action="login.php">
     <?php include('errors.php'); ?>
     <div class="input-group">
-      <label for="login_username">Username</label>
+      <label for="login_username">Používateľské meno</label>
       <input type="text" name="username" id="login_username">
     </div>
     <div class="input-group">
-      <label for="login_password">Password</label>
+      <label for="login_password">Heslo</label>
       <input type="password" name="password" id="login_password">
     </div>
     
@@ -67,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <button type="submit" class="btn" name="login_user">prihlásenie</button>
     </div>
     <p>
-      Not yet a member? <a href="register.php">Sign up</a>
+      Ešte nie ste členom? <a href="register.php">Zaregistrujte sa</a>
       <a href="../index.php">domovská stránka</a>
     </p>
   </form>

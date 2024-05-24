@@ -30,9 +30,12 @@ if (isset($_POST['reg_user'])) {
 
     // first check the database to make sure 
     // a user does not already exist with the same username and/or email
-    $user_check_query = "SELECT * FROM users WHERE username='$username' OR email='$email' LIMIT 1";
-    $result = mysqli_query($db, $user_check_query);
-    $user = mysqli_fetch_assoc($result);
+    $user_check_query = "SELECT * FROM users WHERE username=? OR email=? LIMIT 1";
+    $stmt = $db->prepare($user_check_query);
+    $stmt->bind_param("ss", $username, $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $user = $result->fetch_assoc();
 
     if ($user) { // if user exists
         if ($user['username'] === $username) {
@@ -48,13 +51,21 @@ if (isset($_POST['reg_user'])) {
     if (count($errors) == 0) {
         $password = md5($password_1); //encrypt the password before saving in the database
 
-        $query = "INSERT INTO users (username, email, password, role) 
-                  VALUES('$username', '$email', '$password', '$role')";
-        mysqli_query($db, $query);
-        $_SESSION['username'] = $username;
-        $_SESSION['role'] = $role; // Добавляем роль в сессию
-        $_SESSION['success'] = "You are now logged in";
-        header('location: ../index.php'); // Убедимся, что путь верный
+        $query = "INSERT INTO users (username, email, password, role) VALUES(?, ?, ?, ?)";
+        $stmt = $db->prepare($query);
+        $stmt->bind_param("sssi", $username, $email, $password, $role);
+
+        if ($stmt->execute()) {
+            $_SESSION['username'] = $username;
+            $_SESSION['email'] = $email;
+            $_SESSION['role'] = $role; // Добавляем роль в сессию
+            $_SESSION['success'] = "You are now logged in";
+            header('location: ../index.php'); // Убедимся, что путь верный
+        } else {
+            array_push($errors, "Failed to register user");
+        }
+
+        $stmt->close();
     }
 }
 
@@ -68,17 +79,24 @@ if (isset($_POST['login_user'])) {
 
     if (count($errors) == 0) {
         $password = md5($password);
-        $query = "SELECT * FROM users WHERE username='$username' AND password='$password'";
-        $results = mysqli_query($db, $query);
-        if (mysqli_num_rows($results) == 1) {
-            $logged_in_user = mysqli_fetch_assoc($results);
-            $_SESSION['username'] = $username;
+        $query = "SELECT * FROM users WHERE username=? AND password=?";
+        $stmt = $db->prepare($query);
+        $stmt->bind_param("ss", $username, $password);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows == 1) {
+            $logged_in_user = $result->fetch_assoc();
+            $_SESSION['username'] = $logged_in_user['username'];
+            $_SESSION['email'] = $logged_in_user['email'];
             $_SESSION['role'] = $logged_in_user['role']; // Добавляем роль в сессию
             $_SESSION['success'] = "You are now logged in";
             header('location: ../index.php'); // Убедимся, что путь верный
         } else {
             array_push($errors, "Wrong username/password combination");
         }
+
+        $stmt->close();
     }
 }
 
@@ -101,10 +119,17 @@ if (isset($_POST['add_message'])) {
         array_push($errors, "Message is required");
     }
     if (count($errors) == 0) {
-        $query = "INSERT INTO messages (user_id, message) VALUES ('$user_id', '$message')";
-        mysqli_query($db, $query);
-        $_SESSION['success'] = "Message sent successfully";
-        header('location: ../index.php');
+        $query = "INSERT INTO messages (user_id, message) VALUES (?, ?)";
+        $stmt = $db->prepare($query);
+        $stmt->bind_param("is", $user_id, $message);
+        if ($stmt->execute()) {
+            $_SESSION['success'] = "Message sent successfully";
+            header('location: ../index.php');
+        } else {
+            array_push($errors, "Failed to send message");
+        }
+
+        $stmt->close();
     }
 }
 
@@ -117,11 +142,17 @@ if (isset($_POST['reply_message'])) {
         array_push($errors, "Response is required");
     }
     if (count($errors) == 0) {
-        $query = "UPDATE messages SET response='$response', updated_at=NOW() WHERE id='$message_id'";
-        mysqli_query($db, $query);
-        $_SESSION['success'] = "Response sent successfully";
-        header('location: ../admin/messages.php');
+        $query = "UPDATE messages SET response=?, updated_at=NOW() WHERE id=?";
+        $stmt = $db->prepare($query);
+        $stmt->bind_param("si", $response, $message_id);
+        if ($stmt->execute()) {
+            $_SESSION['success'] = "Response sent successfully";
+            header('location: ../admin/messages.php');
+        } else {
+            array_push($errors, "Failed to send response");
+        }
+
+        $stmt->close();
     }
 }
 ?>
-

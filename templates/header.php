@@ -37,14 +37,14 @@ require_once "func/functions.php";
           <a class="nav-link" href="kontacts.php">Kontacts</a>
 
           <!-- Показывать ссылки на вход и регистрацию только для гостей -->
-          <?php if (!isset($_SESSION['role'])) : ?>
-            <a class="login" href="phpusers/login.php">prihlásit sa</a>
+          <?php if (!isset($_SESSION['role']) || $_SESSION['role'] == 0) : ?>
+            <a class="login" href="phpusers/login.php">Prihlásit sa</a>
             <a class="nav-link" href="phpusers/register.php">Registrácia</a>
           <?php endif; ?>
           
           <!-- Показывать ссылку на выход только для вошедших пользователей -->
-          <?php if (isset($_SESSION['role'])) : ?>
-            <a class="nav-link" href="phpusers/logout.php">odhlásenie</a>
+          <?php if (isset($_SESSION['role']) && $_SESSION['role'] > 0) : ?>
+            <a class="nav-link" href="phpusers/logout.php">Odhlásenie</a>
           <?php endif; ?>
 
           <!-- Добавить ссылку для администраторов с ролью 2 -->

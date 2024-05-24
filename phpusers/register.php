@@ -13,19 +13,19 @@
   <form method="post" action="register.php">
     <?php include('errors.php'); ?>
     <div class="input-group">
-      <label for="reg_username">Username</label>
+      <label for="reg_username">Používateľské meno</label>
       <input type="text" name="username" id="reg_username" value="<?php echo $username; ?>">
     </div>
     <div class="input-group">
-      <label for="reg_email">Email</label>
+      <label for="reg_email">E-mail</label>
       <input type="email" name="email" id="reg_email" value="<?php echo $email; ?>">
     </div>
     <div class="input-group">
-      <label for="password_1">Password</label>
+      <label for="password_1">Hesla</label>
       <input type="password" name="password_1" id="password_1">
     </div>
     <div class="input-group">
-      <label for="password_2">Confirm password</label>
+      <label for="password_2">Potvrdenie hesla</label>
       <input type="password" name="password_2" id="password_2">
     </div>
     
@@ -36,7 +36,7 @@
       <button type="submit" class="btn" name="reg_user">Registrácia</button>
     </div>
     <p>
-      Already a member? <a href="login.php">Prihlásiť sa</a>
+     Už ste členom? <a href="login.php">Prihlásiť sa</a>
       <a href="../index.php">domovská stránka</a>
     </p>
   </form>
