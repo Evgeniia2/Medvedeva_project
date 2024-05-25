@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // Получаем user_id из результата запроса
                 $row = $result->fetch_assoc();
                 $user_id = $row['id'];
-
+                
                 // Выполняем запрос на добавление сообщения в базу данных
                 $sql_insert_message = "INSERT INTO messages (user_id, email, message) VALUES (?, ?, ?)";
                 if ($stmt_insert_message = $conn->prepare($sql_insert_message)) {
@@ -34,6 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     if ($stmt_insert_message->execute()) {
                         // Сообщение успешно добавлено
                         echo "Vaše správa bola úspešne odoslaná.";
+                        
                     } else {
                         // Ошибка при добавлении сообщения
                         echo "Chyba pri odosielaní správy: " . $stmt_insert_message->error;
@@ -60,3 +61,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $conn->close();
 }
 ?>
+
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../phpusers/styles.css" />
+    <title>Document</title>
+</head>
+<body>
+<a class="spat" href="index.php">vrátiť sa späť</a>
+</body>
+</html>

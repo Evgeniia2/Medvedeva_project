@@ -156,7 +156,7 @@ if (!isset($_SESSION['role'])) {
                             <div class="row">
                                 <div class="form-group col-lg-4">
                                     <label for="Meno">Meno</label>
-                                    <input type="text" name="Meno" id="Meno" class="form-control" required>
+                                    <input type="text" name="Meno" id="Meno" class="form-control" required  title="Vyplňte políčko">
                                 </div>
                                 <div class="form-group col-lg-3">
                                     <label for="fakulty">hodnotenia</label>
@@ -171,7 +171,7 @@ if (!isset($_SESSION['role'])) {
                                 </div>
                                 <div class="form-group col-lg-5">
                                     <label for="text">Text</label>
-                                    <textarea name="text" id="text" class="form-control" required></textarea>
+                                    <textarea name="text" id="text" class="form-control" required  title="Vyplňte políčko"></textarea>
                                 </div>
                                 <div class="form-group col-lg-2" style="display: grid;align-items: flex-end;">
                                     <input type="submit" name="submit" id="submit" class="btn btn-primary" value="Poslať">
@@ -214,7 +214,7 @@ if (!isset($_SESSION['role'])) {
                         <td><?php echo $hodnotenia; ?></td>
                         <td><?php echo $text; ?></td>
                         <?php if ($_SESSION['role'] == 2): ?>
-                            <td><a href="adddata.php?id=<?php echo $id; ?>">Edit</a></td>
+                            <td><a href="editdata.php?id=<?php echo $id; ?>">Edit</a></td>
                             <td><a href="deletedata.php?id=<?php echo $id; ?>">Delete</a></td>
                         <?php endif; ?>
                     </tr>

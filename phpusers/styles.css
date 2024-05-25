@@ -87,3 +87,9 @@ form, .content {
 .input-group.show-password label {
   margin-left: 10px;
 }
+.spat{
+  margin: 20px;
+  padding: 20px;
+  text-align: center;
+  color: darkseagreen;
+}
