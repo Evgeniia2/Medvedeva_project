@@ -214,7 +214,7 @@ if (!isset($_SESSION['role'])) {
                         <td><?php echo $hodnotenia; ?></td>
                         <td><?php echo $text; ?></td>
                         <?php if ($_SESSION['role'] == 2): ?>
-                            <td><a href="editdata.php?id=<?php echo $id; ?>">Edit</a></td>
+                            <td><a href="adddata.php?id=<?php echo $id; ?>">Edit</a></td>
                             <td><a href="deletedata.php?id=<?php echo $id; ?>">Delete</a></td>
                         <?php endif; ?>
                     </tr>
@@ -230,7 +230,7 @@ if (!isset($_SESSION['role'])) {
 </section>
 
 <?php
-require "templates/footer.php"; // Подключаем нижнюю часть (футер) веб-страницы
+require "templates/footer.php"; // Подключаем подвал сайта
 ?>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
