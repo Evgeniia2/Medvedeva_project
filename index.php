@@ -1,15 +1,73 @@
 <?php 
 include('templates/header.php'); 
-session_start();
+require_once 'Database.php';
+require_once 'User.php';
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+$db = new Database('localhost', 'root', '', 'kozmetika');
+$user = new User($db);
 
 // Устанавливаем роль по умолчанию, если она не установлена
 if (!isset($_SESSION['role'])) {
     $_SESSION['role'] = 0; 
 }
+
+$errors = [];
+
+function check_role($required_role) {
+    global $errors;
+    if (!isset($_SESSION['role']) || $_SESSION['role'] < $required_role) {
+        array_push($errors, "Insufficient permissions");
+        header('location: error.php');
+        exit();
+    }
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $Meno = $_POST['Meno'] ?? '';
+    $hodnotenia = $_POST['hodnotenia'] ?? '';
+    $text = $_POST['text'] ?? '';
+
+    if (empty($Meno) || empty($hodnotenia) || empty($text)) {
+        $errors[] = 'All fields are required.';
+    } else {
+        check_role(1);
+        $query = "INSERT INTO recenzije (Meno, hodnotenia, text) VALUES (?, ?, ?)";
+        $params = [$Meno, $hodnotenia, $text];
+        $result = $db->query($query, $params);
+        if ($result) {
+            header("location: index.php");
+            exit();
+        } else {
+            $errors[] = "Something went wrong. Please try again later. Error: " . $db->getError();
+        }
+    }
+} elseif (isset($_GET['delete_id'])) {
+    check_role(2);
+    $id = $_GET['delete_id'];
+    $query = "DELETE FROM recenzije WHERE id=?";
+    $result = $db->query($query, [$id]);
+    if ($result) {
+        header("Location: index.php");
+        exit();
+    } else {
+        $errors[] = "Failed to delete record. Error: " . $db->getError();
+    }
+}
 ?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Index</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
 <div class="popup-container" id="cookiePopup">
-    <p>Používame súbory cookie na zlepšenie vášho zážitku na webe. Pokračovaním v používaní tohto webu súhlasíte s
-      používaním súborov cookie.</p>
+    <p>Používame súbory cookie na zlepšenie vášho zážitku na webe. Pokračovaním v používaní tohto webu súhlasíte s používaním súborov cookie.</p>
     <a href="#" class="popup-button" onclick="hidePopup()">Prijať</a>
 </div>
 <section>
@@ -152,15 +210,15 @@ if (!isset($_SESSION['role'])) {
             <div class="testimonial-content">
                 <div class="container">
                     <?php if (isset($_SESSION['username'])): ?>
-                        <form action="adddata.php" method="post">
+                        <form action="index.php" method="post">
                             <div class="row">
                                 <div class="form-group col-lg-4">
                                     <label for="Meno">Meno</label>
-                                    <input type="text" name="Meno" id="Meno" class="form-control" required  title="Vyplňte políčko">
+                                    <input type="text" name="Meno" id="Meno" class="form-control" required>
                                 </div>
                                 <div class="form-group col-lg-3">
-                                    <label for="fakulty">hodnotenia</label>
-                                    <select name="fakulty" id="fakulty" class="form-control" required>
+                                    <label for="hodnotenia">hodnotenia</label>
+                                    <select name="hodnotenia" id="hodnotenia" class="form-control" required>
                                         <option value="">hodnotenia</option>
                                         <option value="1">1</option>
                                         <option value="2">2</option>
@@ -171,15 +229,22 @@ if (!isset($_SESSION['role'])) {
                                 </div>
                                 <div class="form-group col-lg-5">
                                     <label for="text">Text</label>
-                                    <textarea name="text" id="text" class="form-control" required  title="Vyplňte políčko"></textarea>
+                                    <textarea name="text" id="text" class="form-control" required></textarea>
                                 </div>
-                                <div class="form-group col-lg-2" style="display: grid;align-items: flex-end;">
+                                <div class="form-group col-lg-2" style="display: grid; align-items: flex-end;">
                                     <input type="submit" name="submit" id="submit" class="btn btn-primary" value="Poslať">
                                 </div>
                             </div>
                         </form>
                     <?php else: ?>
                         <p>Ak chcete zanechať recenziu, musíte sa zaregistrovať</p>
+                    <?php endif; ?>
+                    <?php if (!empty($errors)): ?>
+                        <div class="alert alert-danger">
+                            <?php foreach ($errors as $error): ?>
+                                <p><?php echo $error; ?></p>
+                            <?php endforeach; ?>
+                        </div>
                     <?php endif; ?>
                 </div>
             </div>
@@ -200,9 +265,8 @@ if (!isset($_SESSION['role'])) {
                     </thead>
                     <tbody>
                     <?php 
-                    require_once "conn.php";
                     $sql_query = "SELECT * FROM recenzije";
-                    if ($result = $conn->query($sql_query)) {
+                    if ($result = $db->query($sql_query)) {
                         while ($row = $result->fetch_assoc()) { 
                             $Meno = $row['Meno'];
                             $hodnotenia = $row['hodnotenia'];
@@ -215,7 +279,7 @@ if (!isset($_SESSION['role'])) {
                         <td><?php echo $text; ?></td>
                         <?php if ($_SESSION['role'] == 2): ?>
                             <td><a href="adddata.php?id=<?php echo $id; ?>">Edit</a></td>
-                            <td><a href="deletedata.php?id=<?php echo $id; ?>">Delete</a></td>
+                            <td><a href="index.php?delete_id=<?php echo $id; ?>" onclick="return confirm('Are you sure you want to delete this record?');">Delete</a></td>
                         <?php endif; ?>
                     </tr>
                     <?php

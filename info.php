@@ -50,7 +50,4 @@ Táto zmluva upravuje podmienky používania používateľmi materiálov a služ
 
 **3.2. Nič v zmluve nemožno interpretovať ako nastolenie vzťahov medzi používateľom a správou webovej stránk  </p>
     <a href="index.php"><h2>Domou</h2></a>
-</div>
-</body>
-
-</html>
+</

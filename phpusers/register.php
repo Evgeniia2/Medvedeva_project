@@ -1,4 +1,24 @@
-<?php include('server.php') ?>
+<?php
+require_once '../Database.php';
+require_once '../User.php';
+
+$db = new Database('localhost', 'root', '', 'kozmetika');
+$user = new User($db);
+
+$errors = [];
+$username = '';
+$email = '';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+    $password_1 = $_POST['password_1'];
+    $password_2 = $_POST['password_2'];
+    $user->register($username, $email, $password_1, $password_2);
+    $errors = $user->getErrors();
+}
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,11 +34,11 @@
     <?php include('errors.php'); ?>
     <div class="input-group">
       <label for="reg_username">Používateľské meno</label>
-      <input type="text" name="username" id="reg_username" value="<?php echo $username; ?>">
+      <input type="text" name="username" id="reg_username" value="<?php echo htmlspecialchars($username); ?>">
     </div>
     <div class="input-group">
       <label for="reg_email">E-mail</label>
-      <input type="email" name="email" id="reg_email" value="<?php echo $email; ?>">
+      <input type="email" name="email" id="reg_email" value="<?php echo htmlspecialchars($email); ?>">
     </div>
     <div class="input-group">
       <label for="password_1">Hesla</label>

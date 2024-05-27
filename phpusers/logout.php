@@ -1,6 +1,9 @@
 <?php
-session_start();
-session_destroy(); // Уничтожаем все данные сессии
-header('Location: ../index.php'); // Перенаправляем пользователя на главную страницу
-exit();
+require_once '../Database.php';
+require_once '../User.php';
+
+$db = new Database('localhost', 'root', '', 'kozmetika');
+$user = new User($db);
+
+$user->logout();
 ?>

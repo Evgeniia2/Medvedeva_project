@@ -1,6 +1,11 @@
 <?php
-session_start();
-require_once "../conn.php"; // Подключаем файл с параметрами подключения к базе данных
+require_once 'Database.php';
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+$db = new Database('localhost', 'root', '', 'kozmetika');
 
 // Проверяем, является ли пользователь администратором
 if (!isset($_SESSION['role']) || $_SESSION['role'] != 2) {
@@ -8,23 +13,20 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] != 2) {
     exit();
 }
 
-$db = new Database('localhost', 'root', '', 'kozmetika');
-
 // Выполняем запрос к базе данных для получения всех сообщений
-$sql = "SELECT messages.*, users.username, users.email FROM messages INNER JOIN users ON messages.user_id = users.id";
-$result = $db->query($sql);
+$query = "SELECT messages.*, users.username, users.email FROM messages INNER JOIN users ON messages.user_id = users.id";
+$result = $db->query($query);
 
 // Обработка формы ответа
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['response']) && isset($_POST['message_id'])) {
     $response = $_POST['response'];
     $message_id = $_POST['message_id'];
 
-    $sql_update_response = "UPDATE messages SET response = ?, updated_at = NOW() WHERE id = ?";
-    try {
-        $db->query($sql_update_response, [$response, $message_id]);
+    $query_update_response = "UPDATE messages SET response = ?, updated_at = NOW() WHERE id = ?";
+    if ($db->query($query_update_response, [$response, $message_id])) {
         echo "Odpoveď bola úspešne uložená.";
-    } catch (Exception $e) {
-        echo "Chyba pri ukladaní odpovede: " . $e->getMessage();
+    } else {
+        echo "Chyba pri ukladaní odpovede: " . $db->getError();
     }
 }
 ?>
@@ -48,9 +50,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['response']) && isset($
             height: 60px;
         }
     </style>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </head>
 <body>
     <div class="container mt-5">

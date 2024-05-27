@@ -29,11 +29,15 @@
 
                 <div class="write-message">
                     <h2>Napíšte nám</h2>
-                    <form method="post" action="send_message.php">
-                        <label for="message">Správa:</label>
-                        <textarea id="message" name="message" required></textarea>
-                        <button type="submit" name="send_message">Odoslať</button>
-                    </form>
+                    <?php if (isset($_SESSION['username'])): ?>
+                        <form method="post" action="send_message.php">
+                            <label for="message">Správa:</label>
+                            <textarea id="message" name="message" required></textarea>
+                            <button type="submit" name="send_message">Odoslať</button>
+                        </form>
+                    <?php else: ?>
+                        <p>Prosím, prihláste sa, aby ste mohli odoslať správu.</p>
+                    <?php endif; ?>
                 </div>
 
                 <div class="row1">
