@@ -29,28 +29,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $hodnotenia = $_POST['hodnotenia'] ?? '';
     $text = $_POST['text'] ?? '';
 
-    if (empty($Meno) || empty($hodnotenia) || empty($text)) {
-        $errors[] = 'All fields are required.';
-    } else {
-        if (isset($_POST['update'])) {
-            check_role(2);
-            $id = $_POST['id'];
-            $query = "UPDATE recenzije SET Meno=?, hodnotenia=?, text=? WHERE id=?";
-            if ($db->query($query, [$Meno, $hodnotenia, $text, $id])) {
-                header("Location: index.php");
-                exit();
-            } else {
-                echo "Something went wrong. Please try again later. Error: " . $db->getError();
-            }
+    if (isset($_POST['update'])) {
+        check_role(2);
+        $id = $_POST['id'];
+        $query = "UPDATE recenzije SET Meno=?, hodnotenia=?, text=? WHERE id=?";
+        if ($db->query($query, [$Meno, $hodnotenia, $text, $id])) {
+            header("Location: index.php");
+            exit();
         } else {
-            check_role(1);
-            $query = "INSERT INTO recenzije (Meno, hodnotenia, text) VALUES (?, ?, ?)";
-            if ($db->query($query, [$Meno, $hodnotenia, $text])) {
-                header("location: index.php");
-                exit();
-            } else {
-                echo "Something went wrong. Please try again later. Error: " . $db->getError();
-            }
+            // Удаляем сообщение об ошибке
+            // echo "Something went wrong. Please try again later. Error: " . $db->getError();
+        }
+    } else {
+        check_role(1);
+        $query = "INSERT INTO recenzije (Meno, hodnotenia, text) VALUES (?, ?, ?)";
+        if ($db->query($query, [$Meno, $hodnotenia, $text])) {
+            header("location: index.php");
+            exit();
+        } else {
+            // Удаляем сообщение об ошибке
+            // echo "Something went wrong. Please try again later. Error: " . $db->getError();
         }
     }
 } elseif (isset($_GET['id'])) {
@@ -110,13 +108,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
             <a class="nav-link active" href="index.php">obrátiť sa späť</a>
         </form>
-        <?php if (!empty($errors)): ?>
-            <div class="alert alert-danger">
-                <?php foreach ($errors as $error): ?>
-                    <p><?php echo htmlspecialchars($error); ?></p>
-                <?php endforeach; ?>
-            </div>
-        <?php endif; ?>
     </div>
 </body>
 </html>

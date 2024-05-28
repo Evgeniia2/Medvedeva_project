@@ -49,11 +49,11 @@ if (isset($_POST['reg_user'])) {
 
     // Finally, register user if there are no errors in the form
     if (count($errors) == 0) {
-        $password = md5($password_1); //encrypt the password before saving in the database
+        $password_hashed = password_hash($password_1, PASSWORD_DEFAULT);
 
         $query = "INSERT INTO users (username, email, password, role) VALUES(?, ?, ?, ?)";
         $stmt = $db->prepare($query);
-        $stmt->bind_param("sssi", $username, $email, $password, $role);
+        $stmt->bind_param("sssi", $username, $email, $password_hashed, $role);
 
         if ($stmt->execute()) {
             $_SESSION['username'] = $username;
@@ -78,20 +78,23 @@ if (isset($_POST['login_user'])) {
     if (empty($password)) { array_push($errors, "Password is required"); }
 
     if (count($errors) == 0) {
-        $password = md5($password);
-        $query = "SELECT * FROM users WHERE username=? AND password=?";
+        $query = "SELECT * FROM users WHERE username=?";
         $stmt = $db->prepare($query);
-        $stmt->bind_param("ss", $username, $password);
+        $stmt->bind_param("s", $username);
         $stmt->execute();
         $result = $stmt->get_result();
 
         if ($result->num_rows == 1) {
             $logged_in_user = $result->fetch_assoc();
-            $_SESSION['username'] = $logged_in_user['username'];
-            $_SESSION['email'] = $logged_in_user['email'];
-            $_SESSION['role'] = $logged_in_user['role']; // Добавляем роль в сессию
-            $_SESSION['success'] = "You are now logged in";
-            header('location: ../index.php'); // Убедимся, что путь верный
+            if (password_verify($password, $logged_in_user['password'])) {
+                $_SESSION['username'] = $logged_in_user['username'];
+                $_SESSION['email'] = $logged_in_user['email'];
+                $_SESSION['role'] = $logged_in_user['role']; // Добавляем роль в сессию
+                $_SESSION['success'] = "You are now logged in";
+                header('location: ../index.php'); // Убедимся, что путь верный
+            } else {
+                array_push($errors, "Wrong username/password combination");
+            }
         } else {
             array_push($errors, "Wrong username/password combination");
         }

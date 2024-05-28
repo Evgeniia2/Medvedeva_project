@@ -43,6 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit();
         } else {
             $errors[] = "Something went wrong. Please try again later. Error: " . $db->getError();
+            // echo "Error: " . $db->getError(); // Удаляем отладочную информацию
         }
     }
 } elseif (isset($_GET['delete_id'])) {
@@ -55,6 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     } else {
         $errors[] = "Failed to delete record. Error: " . $db->getError();
+        // echo "Error: " . $db->getError(); // Удаляем отладочную информацию
     }
 }
 ?>
@@ -105,7 +107,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <img src="img/carousel/Shampoo1k.jpg" class="d-block w-100 " alt="Shampon">
                             <div class="carousel-caption d-none d-md-block">
                                 <h5>šampón</h5>
-                                <p>Predáme úžasné šampóny, určite si prečítajte ich popisy.</p>
+                                <p>Predáme úžasné šampóny, určite si prečítajte ich пописы.</p>
                             </div>
                         </div>
                     </div>
@@ -138,8 +140,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <div class="accordion-body">
                                     <strong>Rýchla doprava nie je len pohodlie, ale aj úspora času.</strong>
                                     Ak si objednáte mydlo ráno, už večer si ho môžete vychutnať vo svojej kúpeľni. To je obzvlášť
-                                    dôležité pre ľudí, ktorí žijú vo veľkých mestách, kde sú často zápchy na cestách.
-                                    Okrem toho vám rýchla doprava umožňuje byť si istí, že mydlo bude doručené v poriadku. Používame len
+                                    dôležité pre ľudí, ktorí žijú vo veľkých mestách, kde sú často zápchy на cestách.
+                                    Okrem toho vám rýchla doprava umožňuje byť si istí, že mydlo bude doručené в poriadku. Používame len
                                     spoľahlivé kuriérske služby, ktoré garantujú bezpečnosť vašich objednávok.
                                     Objednajte si autorské mydlo s rýchlou dopravou a získajte ho už dnes!
                                 </div>
@@ -155,10 +157,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
                                  data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
-                                    Ponúkame našim zákazníkom konštantné zľavy na všetky naše produkty. To znamená, že vždy môžete
+                                    Ponúkame našim zákazníkom konštантné zľavy на všetky naše produkty. To znamená, že vždy môžete
                                     ušetriť peniaze, keď nakupujete u nás.
-                                    Naše zľavy sú dostupné všetkým našim zákazníkom, bez ohľadu na to, ako často nakupujú. To z nich
-                                    robí spravodlivý a dostupný spôsob, ako ušetriť peniaze.
+                                    Naše zľavy sú dostupné všetkým našim zákazníkom, без ohľadu на to, ako často nakupujú. To z nich
+                                    robí spravodlivý a dostupný spôsob, ako уšetriť peniaze.
                                 </div>
                             </div>
                         </div>
@@ -177,8 +179,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     Vieme, že si ceníte jedinečné a vysokokvalitné produkty, preto venujeme osobitnú pozornosť každej
                                     fáze výroby. Používame iba čerstvé, prírodné ingrediencie, ktoré starostlivo vyberáme. Okrem toho
                                     používame ručnú prácu, aby boli naše produkty čo najkvalitnejšie a najuniverzálnejšie.
-                                    Veríme, že láska k práci sa odráža v konečnom produkte. Naše produkty sú vyrobené s láskou a to
-                                    cítiť už pri prvom dotyku.
+                                    Veríme, že láska k práci sa odráža в konečnom produkte. Naše produkty sú vyrobené s láskou a to
+                                    cítiť už при prvom dotyku.
                                 </div>
                             </div>
                         </div>
@@ -239,13 +241,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <?php else: ?>
                         <p>Ak chcete zanechať recenziu, musíte sa zaregistrovať</p>
                     <?php endif; ?>
-                    <?php if (!empty($errors)): ?>
-                        <div class="alert alert-danger">
-                            <?php foreach ($errors as $error): ?>
-                                <p><?php echo $error; ?></p>
-                            <?php endforeach; ?>
-                        </div>
-                    <?php endif; ?>
+
                 </div>
             </div>
         </div>

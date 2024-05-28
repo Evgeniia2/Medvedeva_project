@@ -14,8 +14,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $password_1 = $_POST['password_1'];
     $password_2 = $_POST['password_2'];
-    $user->register($username, $email, $password_1, $password_2);
-    $errors = $user->getErrors();
+
+    // Форматирование ошибок
+    if (empty($username)) { array_push($errors, "Username is required"); }
+    if (empty($email)) { array_push($errors, "Email is required"); }
+    if (empty($password_1)) { array_push($errors, "Password is required"); }
+    if ($password_1 != $password_2) {
+        array_push($errors, "The two passwords do not match");
+    }
+
+    // Проверка, существует ли пользователь уже
+    if ($user->userExists($username, $email)) {
+        if ($user->getUsernameError()) {
+            array_push($errors, "Username already exists");
+        }
+
+        if ($user->getEmailError()) {
+            array_push($errors, "Email already exists");
+        }
+    }
+
+    // Регистрация пользователя, если нет ошибок
+    if (count($errors) == 0) {
+        if ($user->registerUser($username, $email, $password_1)) {
+            $_SESSION['username'] = $username;
+            $_SESSION['email'] = $email;
+            $_SESSION['role'] = 1; // Роль по умолчанию для новых пользователей
+            $_SESSION['success'] = "You are now logged in";
+            header('location: ../index.php'); // Убедимся, что путь верный
+        } else {
+            array_push($errors, "Failed to register user");
+        }
+    }
 }
 ?>
 
