@@ -21,7 +21,7 @@ function check_role($required_role) {
     global $errors;
     if (!isset($_SESSION['role']) || $_SESSION['role'] < $required_role) {
         array_push($errors, "Insufficient permissions");
-        header('location: error.php');
+        header('location: errors.php');
         exit();
     }
 }
@@ -140,7 +140,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <div class="accordion-body">
                                     <strong>Rýchla doprava nie je len pohodlie, ale aj úspora času.</strong>
                                     Ak si objednáte mydlo ráno, už večer si ho môžete vychutnať vo svojej kúpeľni. To je obzvlášť
-                                    dôležité pre ľudí, ktorí žijú vo veľkých mestách, kde sú často zápchy на cestách.
+                                    dôležité pre ľudí, ktorí žijú vo veľkých mestách, kde sú často zápchy na cestách.
                                     Okrem toho vám rýchla doprava umožňuje byť si istí, že mydlo bude doručené в poriadku. Používame len
                                     spoľahlivé kuriérske služby, ktoré garantujú bezpečnosť vašich objednávok.
                                     Objednajte si autorské mydlo s rýchlou dopravou a získajte ho už dnes!
@@ -231,7 +231,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </div>
                                 <div class="form-group col-lg-5">
                                     <label for="text">Text</label>
-                                    <textarea name="text" id="text" class="form-control" required></textarea>
+                                    <textarea name="text" id="text" class="form-control" value="Poslať" required></textarea>
                                 </div>
                                 <div class="form-group col-lg-2" style="display: grid; align-items: flex-end;">
                                     <input type="submit" name="submit" id="submit" class="btn btn-primary" value="Poslať">

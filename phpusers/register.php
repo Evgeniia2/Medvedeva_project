@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['email'] = $email;
             $_SESSION['role'] = 1; // Роль по умолчанию для новых пользователей
             $_SESSION['success'] = "You are now logged in";
-            header('location: ../index.php'); // Убедимся, что путь верный
+            header('location: ../index.php'); 
         } else {
             array_push($errors, "Failed to register user");
         }

@@ -107,7 +107,7 @@ class User {
     public function checkRole($required_role) {
         if (!isset($_SESSION['role']) || $_SESSION['role'] < $required_role) {
             $this->errors[] = "Insufficient permissions";
-            header('location: error.php');
+            header('location: errors.php');
             exit();
         }
     }

@@ -108,7 +108,7 @@ function check_role($required_role) {
     global $errors;
     if (!isset($_SESSION['role']) || $_SESSION['role'] < $required_role) {
         array_push($errors, "Insufficient permissions");
-        header('location: error.php'); // Перенаправление на страницу ошибки
+        header('location: errors.php'); // Перенаправление на страницу ошибки
         exit();
     }
 }
