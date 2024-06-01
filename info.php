@@ -48,9 +48,6 @@ Táto zmluva upravuje podmienky používania používateľmi materiálov a služ
 
 3.1. Všetky možné spory vyplývajúce z tejto zmluvy alebo súvisiace s ňou, podliehajú riešeniu v súlade s platným právnym poriadkom Ruskej federácie.
 
-**3.2. Nič v zmluve nemožno interpretovať ako nastolenie vzťahov medzi používateľom a správou webovej stránk </p>
+**3.2. Nič v zmluve nemožno interpretovať ako nastolenie vzťahov medzi používateľom a správou webovej stránk  </p>
     <a href="index.php"><h2>Domou</h2></a>
-</div>
-</body>
-
-</html>
+</

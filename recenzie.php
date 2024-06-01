@@ -1,24 +1,8 @@
 <?php 
-  include "templates/header.php";
-  ?>
-
+  include('templates/header.php'); // Подключаем шапку сайта
+?>
 <body>
-  <header>
-    <div class="navbar fixed-top">
-      <img src="img/logo.png" alt="Logo" class="logo">
-      <div class="dropmenu">
-        <!-- kreative кодом ниже делается изображение (бургер). так можно вставить хоть телефончик -->
-        <button class="navbtn">&#9776;</button>
-        <div class="navlist">
 
-          <a class="nav-link" href="index.php">Main</a>
-          <a class="nav-link" href="Katalog.php">Katalog</a>
-          <a class="nav-link active" href="recenzie.php">Recenzie</a>
-          <a class="nav-link" href="kontacts.php">Kontacts</a>
-        </div>
-      </div>
-    </div>
-  </header>
   <section>
     <div class="main-container">
       <div class="container">
@@ -168,8 +152,8 @@
   </section>
 
   <?php
-require "templates/footer.php";
-?>
+  require "templates/footer.php";
+  ?>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
     integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
