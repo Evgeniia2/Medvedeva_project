@@ -108,6 +108,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="carousel-caption d-none d-md-block">
                                 <h5>šampón</h5>
                                 <p>Predávame vynikajúce šampóny, určite si prečítajte ich popis.</p>
+                                <p>Predáme úžasné šampóny, určite si prečítajte ich пописы.</p>
                             </div>
                         </div>
                     </div>
@@ -157,7 +158,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
                                  data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
-                                Ponúkame našim zákazníkom konštantné zľavy na všetky naše produkty. To znamená, že vždy môžete
+                                    Ponúkame našim zákazníkom konštantné zľavy na všetky naše produkty. To znamená, že vždy môžete
                                     ušetriť peniaze, keď nakupujete u nás.
                                     Naše zľavy sú dostupné všetkým našim zákazníkom, bez ohľadu na to, ako často nakupujú. To z nich
                                     robí spravodlivý a dostupný spôsob, ako ušetriť peniaze.
@@ -174,7 +175,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
                                  data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
-                                Sme hrdí na to, že naše produkty sú vyrábané s láskou. Používame iba prírodné ingrediencie a ručnú
+                                    Sme hrdí na to, že naše produkty sú vyrábané s láskou. Používame iba prírodné ingrediencie a ručnú
                                     prácu, aby sme vytvorili výrobky, ktoré vás potešia svojou kvalitou a vôňou.
                                     Vieme, že si ceníte jedinečné a vysokokvalitné produkty, preto venujeme osobitnú pozornosť každej
                                     fáze výroby. Používame iba čerstvé, prírodné ingrediencie, ktoré starostlivo vyberáme. Okrem toho
@@ -290,7 +291,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </section>
 
 <?php
-require "templates/footer.php"; // Подключаем подвал сайта
+require "templates/footer.php"; // Pripojenie súboru footer.php (spodná časť stránky). Použitie require znamená, že ak sa súbor 
+// nenájde, skript zlyhá.
 ?>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"

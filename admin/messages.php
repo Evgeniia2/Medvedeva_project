@@ -7,7 +7,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] != 2) {
     echo "Access denied. Only administrators can view this page.";
     exit();
 }
-
+// Vytvorí sa nový objekt $db triedy Database na pripojenie k databáze kozmetika. Používateľ root a žiadne heslo
 $db = new Database('localhost', 'root', '', 'kozmetika');
 
 // Обработка формы ответа

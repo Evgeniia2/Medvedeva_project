@@ -1,5 +1,5 @@
 <?php 
-  include('templates/header.php'); // Подключаем шапку сайта
+  include('templates/header.php'); // Pripojenie súboru header.php (hlavička stránky)
 ?>
 <body>
 
@@ -152,7 +152,8 @@
   </section>
 
   <?php
-  require "templates/footer.php";
+  require "templates/footer.php"; // Pripojenie súboru footer.php (spodná časť stránky). Použitie require znamená, že ak sa súbor nenájde, 
+  // skript zlyhá
   ?>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"

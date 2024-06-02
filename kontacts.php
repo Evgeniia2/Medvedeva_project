@@ -1,5 +1,4 @@
-<!-- kontacts.php -->
-<?php include('templates/header.php'); ?>  // Pripojenie súboru header.php (hlavička stránky)
+<?php include('templates/header.php'); ?> // Pripájame súbor header.php., jeho obsah je vložený 
 
 <body>
     <section>
@@ -29,18 +28,24 @@
 
                 <div class="write-message">
                     <h2>Napíšte nám</h2>
-            <?php if (isset($_SESSION['username'])): ?> 
-                <!-- Kontrola, či je nastavená premenná relácie $_SESSION['username', teda či je používateľ autorizovaný -->
-                <form method="post" action="send_message.php"> 
-                <!-- Ak je používateľ autorizovaný, vytvorí sa formulár, ktorý odošle údaje metódou POST na stránku send_message.php -->
-                <label for="message">Správa:</label> 
-                <!-- Vytvorí sa štítok pre textovú oblasť, ktorá bude obsahovať správu -->
-                <textarea id="message" name="message" required></textarea> 
-                <!-- Pre zadanie správy je vytvorené viacriadkové textové pole, ktoré je potrebné pred odoslaním formulára -->
-                <button type="submit" name="send_message">Odoslať</button>
-            </form>
-            <?php endif; ?>
+                    <?php if (isset($_SESSION['username'])): ?>  
+                        <!-- Kontrola, či je nastavená premenná, teda či je používateľ autorizovaný -->
 
+                        <form method="post" action="send_message.php">  
+                            <!-- Ak je používateľ autorizovaný, vytvorí sa formulár, ktorý odošle údaje metódou POST na stránku send_message.php --> 
+
+                            <label for="message">Správa:</label>  
+                            <!-- Vytvorí sa štítok pre textovú oblasť, ktorá bude obsahovať správu -->
+
+                            <!-- Pre zadanie správy je vytvorené viacriadkové textové pole, ktoré je potrebné pred odoslaním formulára -->
+                            <textarea id="message" name="message" required title="Vyplňte políčko"></textarea>
+                            <button type="submit" name="send_message">Odoslať</button>
+                        </form>
+                    <?php else: ?>  
+                        <!-- Prvý, ak sa blok uzatvorí, a začne sa alternatívny blok else, ktorý sa vykoná, ak používateľ nie je autorizovaný -->
+                        <p>Prosím, prihláste sa, aby ste mohli odoslať správu.</p>
+                    <?php endif; ?>   
+                    <!-- Podmienený blok if-else sa zatvorí -->
                 </div>
 
                 <div class="row1">
@@ -55,8 +60,8 @@
         </div>
     </section>
 
-    <?php require "templates/footer.php"; ?> // Pripojenie súboru footer.php (spodná časť stránky).
-// Použitie require znamená, že ak sa súbor nenájde, skript zlyhá. 
+    <?php require "templates/footer.php"; ?> 
+    // Pripojenie súboru footer.php (spodná časť stránky). require znamená: ak sa súbor nenájde, skript zlyhá s chybou 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
 

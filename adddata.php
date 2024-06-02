@@ -2,6 +2,7 @@
 require_once __DIR__ . '/Database.php';
 require_once __DIR__ . '/User.php';
 
+// Vytvorí sa nový objekt $db triedy Database na pripojenie k databáze kozmetika. Používateľ root a žiadne heslo
 $db = new Database('localhost', 'root', '', 'kozmetika');
 $user = new User($db);
 
@@ -24,6 +25,8 @@ $Meno = '';
 $hodnotenia = '';
 $text = '';
 
+// Overuje sa, či je aktuálna požiadavka metódou POST. Ak áno, kód vnútri podmienky sa vykoná. Kontroluje sa, či je používateľ 
+// prihlásený do systému
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $Meno = $_POST['Meno'] ?? '';
     $hodnotenia = $_POST['hodnotenia'] ?? '';
