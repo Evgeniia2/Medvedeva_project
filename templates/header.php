@@ -38,7 +38,7 @@ require_once "func/functions.php";
 
           <!-- Показывать ссылки на вход и регистрацию только для гостей -->
           <?php if (!isset($_SESSION['role']) || $_SESSION['role'] == 0) : ?>
-            <a class="login" href="phpusers/login.php">Prihlásit sa</a>
+            <a class="login" href="phpusers/login.php">Prihlásiť sa</a>
             <a class="nav-link" href="phpusers/register.php">Registrácia</a>
           <?php endif; ?>
           

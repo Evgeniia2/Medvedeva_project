@@ -29,5 +29,5 @@
 </html>
 
 <?php
-require "templates/footer.php"; // Подключаем подвал сайта
+require "templates/footer.php"; // Pripojenie súboru footer.php (spodná časť stránky). require znamená: ak sa súbor nenájde, skript zlyhá s chybou
 ?>

@@ -1,56 +1,90 @@
 <?php 
 include('templates/header.php'); 
-require_once 'Database.php';
+require_once 'Database.php'; // Pripojenie súboru Database.php. Je zaručené, že súbor bude pripojený iba raz
 require_once 'User.php';
 
+// Kontrola začiatku relácie. Ak relácia nebeží, spustí sa. 
+// Zabezpečuje, aby sa relácia v skripte spustila iba raz, čím predchádza chybám a zabezpečuje správnu správu relácie
 if (session_status() === PHP_SESSION_NONE) {
-    session_start();
+    session_start();  // Relácia sa začína
 }
 
+// Vytvorí sa nový objekt $db triedy Database na pripojenie k databáze kozmetika. Používateľ root a žiadne heslo
 $db = new Database('localhost', 'root', '', 'kozmetika');
 $user = new User($db);
 
-// Устанавливаем роль по умолчанию, если она не установлена
+// Nastavenie predvolenej roly, ak ešte nie je nastavená, hodnota je nastavená na 0
 if (!isset($_SESSION['role'])) {
     $_SESSION['role'] = 0; 
 }
 
-$errors = [];
+$errors = []; // Pole ukladá správy o všetkých chybách, ktoré sa môžu vyskytnúť počas vykonávania skriptu
 
+// Funkcia overuje, či má používateľ dostatočné práva na vykonanie konkrétnej akcie, čo znamená obmedzenie prístupu, ak nie sú 
+// povolené práva
 function check_role($required_role) {
     global $errors;
+    // Skontrolujte, či je zadaná podmienka splnená: ak rola užívateľa nie je nainštalovaná alebo je menšia ako požadovaná rola, 
+    // podmienka vo vnútri bude pravdivá (vráti sa ako true). (aspoň jedna z čiastkových podmienok je pravdivá)
     if (!isset($_SESSION['role']) || $_SESSION['role'] < $required_role) {
         array_push($errors, "Insufficient permissions");
-        header('location: errors.php');
+        // Funkcia pridá dva argumenty (pole a reťazec) na koniec poľa. Pole - správy o všetkých chybách a textová správa označujúca 
+        // nedostatočné prístupové práva
+        header('location: errors.php'); // Presmerovanie používateľa na stránku error.php. Používa sa na riešenie chýb
         exit();
     }
 }
 
+// Overuje sa, či je aktuálna požiadavka metódou POST. Ak áno, kód vnútri podmienky sa vykoná. Kontroluje sa, či je používateľ 
+// prihlásený do systému
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    
+    Tieto tri riadky získavajú údaje zo superglobálneho poľa $_POST. Operátor ?? používa sa na kontrolu, či existuje hodnota v poli 
+    // $_POST. Ak neexistuje žiadna hodnota, premennej je priradený prázdny reťazec
     $Meno = $_POST['Meno'] ?? '';
     $hodnotenia = $_POST['hodnotenia'] ?? '';
     $text = $_POST['text'] ?? '';
 
+    // Kontrola, či je niektorá z troch premenných $Meno, $hodnotenia, $text prázdna. Ak je aspoň jedno z nich prázdne, do poľa $errors 
+    // sa pridá správa 'Všetky polia sú povinné.' Ak sú vyplnené všetky polia, vykoná sa blok else. Ak je pole prázdne, vráti hodnotu 
+    // true, potom nie sú žiadne chyby a vykonávanie môže pokračovať. Ak sú v poli chyby, zobrazia sa používateľovi
     if (empty($Meno) || empty($hodnotenia) || empty($text)) {
         $errors[] = 'All fields are required.';
     } else {
         check_role(1);
+        // Funkcia check_role sa volá s argumentom 1. Táto funkcia kontroluje, či má aktuálny užívateľ rolu požadovanú na vykonanie 
+        // tejto akcie. Ak je rola nedostatočná, funkcia skript ukončí a presmeruje používateľa na chybovú stránku  
+       
+        // Vytvára sa SQL dotaz na vloženie nového záznamu do tabuľky "recenzije". Textové náhrady(placholdery) (?), ktoré sa 
+        // používajú na nahradenie hodnôt v pripravenom SQL dotaze, budú pri vykonávaní dotazu nahradené skutočnými hodnotami 
         $query = "INSERT INTO recenzije (Meno, hodnotenia, text) VALUES (?, ?, ?)";
         $params = [$Meno, $hodnotenia, $text];
         $result = $db->query($query, $params);
+        
+        // Ak je požiadavka úspešná (hodnota $result je true), používateľ je presmerovaný na domovskú stránku index.php a vykonávanie 
+        // skriptu sa zastaví
         if ($result) {
             header("location: index.php");
             exit();
         } else {
             $errors[] = "Something went wrong. Please try again later. Error: " . $db->getError();
-            // echo "Error: " . $db->getError(); // Удаляем отладочную информацию
+            // echo "Error: " . $db->getError(); // Ak požiadavka zlyhá, do poľa $errors sa pridá chybové hlásenie vrátane textu 
+            // chyby vrátenej z metódy getError objektu $db 
         }
     }
+// Skontroluje, či parameter delete_id (na vymazanie záznamov z tabuľky) existuje v poli $_GET. Ak áno, vykoná sa blok kódu v tejto 
+// podmienke
 } elseif (isset($_GET['delete_id'])) {
+    // Funkcia check_role sa volá s argumentom 2. Funkcia kontroluje rolu užívateľa, aby zistila, či je dostatočná na vykonanie akcie 
+    // vymazania. Ak je rola nedostatočná, funkcia skript ukončí a presmeruje používateľa na chybovú stránku   
     check_role(2);
     $id = $_GET['delete_id'];
-    $query = "DELETE FROM recenzije WHERE id=?";
+    $query = "DELETE FROM recenzije WHERE id=?"; // Vytvorí sa SQL dotaz na vymazanie záznamu z tabuľky recenzije s daným id pri 
+    // prijatí požiadavky GET s parametrom delete_id
     $result = $db->query($query, [$id]);
+    
+    // Ak sa žiadosť o odstránenie úspešne vykoná (hodnota result je pravdivá), používateľ je presmerovaný na stránku index.php a 
+    // vykonávanie skriptu sa ukončí
     if ($result) {
         header("Location: index.php");
         exit();
@@ -107,7 +141,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <img src="img/carousel/Shampoo1k.jpg" class="d-block w-100 " alt="Shampon">
                             <div class="carousel-caption d-none d-md-block">
                                 <h5>šampón</h5>
-                                <p>Predáme úžasné šampóny, určite si prečítajte ich пописы.</p>
+                                <p>Predáme úžasné šampóny, určite si prečítajte ich popis.</p>
                             </div>
                         </div>
                     </div>
@@ -157,10 +191,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
                                  data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
-                                    Ponúkame našim zákazníkom konštантné zľavy на všetky naše produkty. To znamená, že vždy môžete
+                                    Ponúkame našim zákazníkom konštantné zľavy na všetky naše produkty. To znamená, že vždy môžete
                                     ušetriť peniaze, keď nakupujete u nás.
-                                    Naše zľavy sú dostupné všetkým našim zákazníkom, без ohľadu на to, ako často nakupujú. To z nich
-                                    robí spravodlivý a dostupný spôsob, ako уšetriť peniaze.
+                                    Naše zľavy sú dostupné všetkým našim zákazníkom, bez ohľadu na to, ako často nakupujú. To z nich
+                                    robí spravodlivý a dostupný spôsob, ako ušetriť peniaze.
                                 </div>
                             </div>
                         </div>
@@ -179,8 +213,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     Vieme, že si ceníte jedinečné a vysokokvalitné produkty, preto venujeme osobitnú pozornosť každej
                                     fáze výroby. Používame iba čerstvé, prírodné ingrediencie, ktoré starostlivo vyberáme. Okrem toho
                                     používame ručnú prácu, aby boli naše produkty čo najkvalitnejšie a najuniverzálnejšie.
-                                    Veríme, že láska k práci sa odráža в konečnom produkte. Naše produkty sú vyrobené s láskou a to
-                                    cítiť už при prvom dotyku.
+                                    Veríme, že láska k práci sa odráža v konečnom produkte. Naše produkty sú vyrobené s láskou a to
+                                    cítiť už pri prvom dotyku.
                                 </div>
                             </div>
                         </div>
@@ -216,11 +250,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="row">
                                 <div class="form-group col-lg-4">
                                     <label for="Meno">Meno</label>
-                                    <input type="text" name="Meno" id="Meno" class="form-control" required>
+                                    <input type="text" name="Meno" id="Meno" class="form-control" required title="Vyplňte políčko">
                                 </div>
                                 <div class="form-group col-lg-3">
                                     <label for="hodnotenia">hodnotenia</label>
-                                    <select name="hodnotenia" id="hodnotenia" class="form-control" required>
+                                    <select name="hodnotenia" id="hodnotenia" class="form-control" required title="Vyplňte políčko">
                                         <option value="">hodnotenia</option>
                                         <option value="1">1</option>
                                         <option value="2">2</option>
@@ -231,7 +265,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </div>
                                 <div class="form-group col-lg-5">
                                     <label for="text">Text</label>
-                                    <textarea name="text" id="text" class="form-control" value="Poslať" required></textarea>
+                                    <textarea name="text" id="text" class="form-control" value="Poslať" required title="Vyplňte políčko"></textarea>
                                 </div>
                                 <div class="form-group col-lg-2" style="display: grid; align-items: flex-end;">
                                     <input type="submit" name="submit" id="submit" class="btn btn-primary" value="Poslať">

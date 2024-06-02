@@ -1,16 +1,17 @@
 <?php
-require_once "conn.php"; // Подключаем файл с параметрами подключения к базе данных
+require_once "conn.php"; // // Pripojenie súboru conn.php. Je zaručené, že súbor bude pripojený iba raz
 session_start();
 
 $errors = [];
 
-// Инициализируем объект Database
+// Vytvorí sa nový objekt $db triedy Database na pripojenie k databáze kozmetika. Používateľ root a žiadne heslo
 $db = new Database('localhost', 'root', '', 'kozmetika');
 
-// Проверяем, вошел ли пользователь в систему
+// Overuje sa, či je aktuálna požiadavka metódou POST. Ak áno, kód vnútri podmienky sa vykoná. Kontroluje sa, či je používateľ 
+// prihlásený do systému 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_SESSION['username'])) {
-        // Получаем данные из сессии
+        // Načítavanie údajov z relácie
         $username = $_SESSION['username'];
         $email = isset($_SESSION['email']) ? $_SESSION['email'] : null;
         $message = $_POST["message"];
@@ -21,20 +22,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if (empty($errors)) {
             try {
-                // Выполняем запрос на получение user_id по username из таблицы users
+                // Spustíme dotaz na získanie user_id podľa používateľského mena z tabuľky users
                 $sql_select_user_id = "SELECT id FROM users WHERE username = ?";
                 $result = $db->query($sql_select_user_id, [$username]);
 
                 if ($result->num_rows == 1) {
-                    // Получаем user_id из результата запроса
+                    // Získanie user_id z výsledku dopytu
                     $row = $result->fetch_assoc();
                     $user_id = $row['id'];
 
-                    // Выполняем запрос на добавление сообщения в базу данных
+                    // Vykonáme požiadavku na pridanie správy do databázy
                     $sql_insert_message = "INSERT INTO messages (user_id, email, message) VALUES (?, ?, ?)";
                     $db->query($sql_insert_message, [$user_id, $email, $message]);
 
-                    // Сообщение успешно добавлено
+                    // Správa bola úspešne pridaná
                     echo "Vaše správa bola úspešne odoslaná.";
                     header("Location: kontacts.php?status=success");
                     exit();
@@ -49,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $errors[] = "Prosím, prihláste sa, aby ste mohli odoslať správu.";
     }
 
-    // Закрываем соединение с базой данных
+    // Zatvorenie pripojenia k databáze
     $db->close();
 }
 ?>
@@ -79,5 +80,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </html>
 
 <?php
-require "templates/footer.php"; // Подключаем подвал сайта
+require "templates/footer.php"; // Pripojenie súboru footer.php (spodná časť stránky). Použitie require znamená, že ak sa súbor nenájde, 
+// skript zlyhá.
 ?>

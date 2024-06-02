@@ -1,18 +1,22 @@
 <?php
-class User {
-    private $db;
+class User { // Deklarácia triedy User
+    private $db; 
     private $errors = [];
     private $usernameError = false;
     private $emailError = false;
 
-    public function __construct($db) {
+    public function __construct($db) { 
+        // Inicializuje objekt triedy User s odovzdaným databázovým objektom $db Ak relácia nebola spustená, spustí ju
         $this->db = $db;
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
     }
 
-    public function register($username, $email, $password1, $password2) {
+    public function register($username, $email, $password1, $password2) { 
+        // Registrácia nového používateľa so zadaným menom, emailom a heslom. Skontroluje chyby zadaných údajov (prázdne polia, nezhoda 
+        // hesiel, meno používateľa). Ak nie sú žiadne chyby, zahashuje heslo, uloží nového používateľa do databázy a údaje používateľa do 
+        // relácie
         if (empty($username)) {
             $this->errors[] = "Username is required";
         }
@@ -58,7 +62,9 @@ class User {
         }
     }
 
-    public function login($username, $password) {
+    public function login($username, $password) { 
+        // Autorizácia používateľa. Skontroluje zadané údaje, vyhľadá používateľa v databáze a skontroluje zadané heslo s hashom v databáze. 
+        // Ak je kontrola úspešná, uloží používateľské údaje do relácie.
         if (empty($username)) {
             $this->errors[] = "Username is required";
         }
@@ -94,17 +100,20 @@ class User {
         }
     }
 
-    public function logout() {
+    public function logout() { 
+        // Ukončí reláciu používateľa a presmeruje na domovskú stránku.
         session_destroy();
         header('Location: ../index.php');
         exit();
     }
 
-    public function getErrors() {
+    public function getErrors() { // Vráti pole chýb nahromadených počas prevádzky
         return $this->errors;
     }
 
-    public function checkRole($required_role) {
+    public function checkRole($required_role) { 
+        // Skontroluje aktuálnu rolu používateľa porovnaním s požadovanou rolou. Ak používateľ nemá dostatočné práva, pridá do poľa chybu 
+        // a presmeruje sa na chybovú stránku
         if (!isset($_SESSION['role']) || $_SESSION['role'] < $required_role) {
             $this->errors[] = "Insufficient permissions";
             header('location: errors.php');
@@ -112,7 +121,9 @@ class User {
         }
     }
 
-    public function userExists($username, $email) {
+    public function userExists($username, $email) { 
+        // Skontroluje, či v databáze existuje používateľ s daným menom alebo e-mailom. Ak sa takýto používateľ nájde, premenná $user bude 
+        // obsahovať jeho údaje. Táto metóda sa používa na zabránenie používateľom v registrácii s existujúcim menom alebo e-mailom
         $user_check_query = "SELECT * FROM users WHERE username=? OR email=? LIMIT 1";
         $stmt = $this->db->query($user_check_query, [$username, $email]);
         $user = $stmt->fetch_assoc();
@@ -130,20 +141,31 @@ class User {
         return false;
     }
 
-    public function getUsernameError() {
-        return $this->usernameError;
+    public function getUsernameError() { 
+        // Vráti stav chýb spojených s používateľským menom
+        return $this->usernameError; 
     }
 
-    public function getEmailError() {
+    public function getEmailError() { 
+        // Vráti stav chýb spojených s používateľským e-mailom
         return $this->emailError;
     }
 
-    public function registerUser($username, $email, $password) {
-        $password = password_hash($password, PASSWORD_DEFAULT);
-        $query = "INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, 1)";
-        $this->db->query($query, [$username, $email, $password]);
+    public function registerUser($username, $email, $password) { 
+        // Proces registrácie nového používateľa v systéme. Hašuje heslo, vkladá údaje používateľa do databázy, nastavuje premenné relácie 
+        // pre nového používateľa a hlási úspešnú registráciu
 
-        $user_id = $this->db->getConnection()->insert_id;
+        $password = password_hash($password, PASSWORD_DEFAULT); 
+        // Hašuje zadané heslo. Toto sa robí na bezpečné uloženie hesla v databáze
+
+        $query = "INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, 1)"; 
+        // SQL dotaz na vloženie nového záznamu do tabuľky používateľov so zadanými poľami. Hodnota 1 - registrovaný používateľ
+
+        $this->db->query($query, [$username, $email, $password]); 
+        // Pripravené hodnoty sú odovzdané spolu s požiadavkou na bezpečné vloženie do databázy
+
+        $user_id = $this->db->getConnection()->insert_id; 
+        // ID posledného záznamu vloženého do databázovej tabuľky pomocou metódy insert_id
 
         $_SESSION['user_id'] = $user_id;
         $_SESSION['username'] = $username;
