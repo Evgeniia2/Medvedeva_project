@@ -66,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // vrátenej z metódy getError objektu $db
         }
     }
-    Skontrolujem, či parameter delete_id (na vymazanie záznamov z tabuľky) existuje v poli $_GET. Ak áno, vykoná sa blok kódu v tejto 
+    // Skontrolujem, či parameter delete_id (na vymazanie záznamov z tabuľky) existuje v poli $_GET. Ak áno, vykoná sa blok kódu v tejto 
     // podmienke
 } elseif (isset($_GET['delete_id'])) {
     check_role(2); // Funkcia kontroluje rolu užívateľa, aby zistila, či je dostatočná na vykonanie akcie vymazania. Ak je rola 
