@@ -1,62 +1,85 @@
 <?php 
-include('templates/header.php'); 
-require_once 'Database.php';
-require_once 'User.php';
+include('templates/header.php'); // Pripojenie súboru header.php (hlavička stránky)
+require_once 'Database.php'; // Pripojenie súboru Database.php. Je zaručené, že súbor bude pripojený iba raz
+require_once 'User.php'; // pripojenie súboru User.php ktorý obsahuje triedu User pre správu používateľov
 
+// Kontrola, spustenie aktuálneho stavu relácie, relácia je zapnutá, ale ešte nebola spustená. Zaručuje, že relácia bude 
+// spustená iba raz v skripte, čo predchádza chybám a zabezpečuje správnu funkčnosť
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// Vytvorí sa nový objekt $db triedy Database na pripojenie k databáze kozmetika. Používateľ root a žiadne heslo
 $db = new Database('localhost', 'root', '', 'kozmetika');
 $user = new User($db);
 
-// Устанавливаем роль по умолчанию, если она не установлена
+// Skontroluje aktuálnu rolu používateľa porovnaním s požadovanou rolou. Ak používateľ nemá dostatočné práva, pridá do poľa chybu 
+// a presmeruje sa na chybovú stránku
 if (!isset($_SESSION['role'])) {
     $_SESSION['role'] = 0; 
 }
 
-$errors = [];
+$errors = []; // Pole ukladá správy o všetkých chybách, ktoré sa môžu vyskytnúť počas vykonávania skriptu
 
+// Kontrola roly používateľa pred vykonaním operácie. Ak požadovaná rola nie je prítomná, pridá sa chyba a dôjde k presmerovaniu na 
+// chybovú stránku
 function check_role($required_role) {
     global $errors;
     if (!isset($_SESSION['role']) || $_SESSION['role'] < $required_role) {
         array_push($errors, "Insufficient permissions");
-        header('location: errors.php');
+        header('location: errors.php'); // Presmerovanie na chybovú stránku
         exit();
     }
 }
 
+// Overuje sa, či je aktuálna požiadavka metódou POST. Ak áno, kód vnútri podmienky sa vykoná. Kontroluje sa, či je používateľ 
+// prihlásený do systému
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $Meno = $_POST['Meno'] ?? '';
     $hodnotenia = $_POST['hodnotenia'] ?? '';
     $text = $_POST['text'] ?? '';
 
+    // Kontrola troch premenných. Ak je aspoň jedno z nich prázdne, do poľa $errors sa pridá správa 'Všetky polia sú povinné.' Ak sú 
+    // vyplnené všetky polia, vykoná sa blok else. Ak je pole prázdne, vráti hodnotu true, potom nie sú žiadne chyby a vykonávanie môže 
+    // pokračovať. Ak sú v poli chyby, zobrazia sa používateľovi
     if (empty($Meno) || empty($hodnotenia) || empty($text)) {
         $errors[] = 'All fields are required.';
     } else {
-        check_role(1);
+        check_role(1); // Funkcia s argumentom 1. Táto funkcia kontroluje, či má aktuálny užívateľ rolu požadovanú na vykonanie tejto 
+        // akcie. Ak je rola nedostatočná, funkcia skript ukončí a presmeruje používateľa na chybovú stránku.
+        // Vytvorí sa SQL dotaz na vloženie nového záznamu do tabuľky recenzije. Placeholdery (zástupné symboly) (?), ktoré slúžia na 
+        // nahradenie hodnôt do pripraveného SQL dotazu, budú pri vykonávaní dotazu nahradené skutočnými hodnotami
         $query = "INSERT INTO recenzije (Meno, hodnotenia, text) VALUES (?, ?, ?)";
         $params = [$Meno, $hodnotenia, $text];
         $result = $db->query($query, $params);
+
+        //SQL dotaz s parametrami, ktoré sa vkladajú do zástupných symbolov. Používa sa metóda dotazu objektu $db. Parametre požiadavky 
+        // sa odovzdávajú v poli $params. Výsledok dotazu je uložený v premennej $result
+        // Ak je požiadavka úspešná (hodnota $result je true), používateľ je presmerovaný na stránku index.php a vykonávanie skriptu 
+        // sa zastaví
         if ($result) {
             header("location: index.php");
             exit();
         } else {
             $errors[] = "Something went wrong. Please try again later. Error: " . $db->getError();
-            // echo "Error: " . $db->getError(); // Удаляем отладочную информацию
+            // echo "Error: " . $db->getError(); // Ak požiadavka zlyhá, do poľa $errors sa pridá chybové hlásenie vrátane textu chyby 
+            // vrátenej z metódy getError objektu $db
         }
     }
+    Skontrolujem, či parameter delete_id (na vymazanie záznamov z tabuľky) existuje v poli $_GET. Ak áno, vykoná sa blok kódu v tejto 
+    // podmienke
 } elseif (isset($_GET['delete_id'])) {
-    check_role(2);
+    check_role(2); // Funkcia kontroluje rolu užívateľa, aby zistila, či je dostatočná na vykonanie akcie vymazania. Ak je rola 
+    // nedostatočná, funkcia skript ukončí a presmeruje používateľa na chybovú stránku
     $id = $_GET['delete_id'];
-    $query = "DELETE FROM recenzije WHERE id=?";
+    $query = "DELETE FROM recenzije WHERE id=?"; // // Vytvorí sa SQL dotaz na vymazanie záznamu z tabuľky recenzije 
     $result = $db->query($query, [$id]);
     if ($result) {
         header("Location: index.php");
         exit();
     } else {
         $errors[] = "Failed to delete record. Error: " . $db->getError();
-        // echo "Error: " . $db->getError(); // Удаляем отладочную информацию
+        // echo "Error: " . $db->getError(); // Ak požiadavka zlyhá, do poľa sa pridá chybové hlásenie vrátane textu chyby 
     }
 }
 ?>

@@ -2,7 +2,7 @@
 require_once "conn.php"; // Pripojenie súboru conn.php. Je zaručené, že súbor bude pripojený iba raz
 session_start();
 
-$errors = [];
+$errors = []; // Pole ukladá správy o všetkých chybách, ktoré sa môžu vyskytnúť počas vykonávania skriptu
 
 // Vytvorí sa nový objekt $db triedy Database na pripojenie k databáze kozmetika. Používateľ root a žiadne heslo
 $db = new Database('localhost', 'root', '', 'kozmetika');

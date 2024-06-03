@@ -8,6 +8,8 @@ class User { // Deklarácia triedy User
     public function __construct($db) { 
         // Inicializuje objekt triedy User s odovzdaným databázovým objektom $db Ak relácia nebola spustená, spustí ju
         $this->db = $db;
+        // Kontrola, spustenie aktuálneho stavu relácie, relácia je zapnutá, ale ešte nebola spustená. Zaručuje, že relácia bude 
+        // spustená iba raz v skripte, čo predchádza chybám a zabezpečuje správnu funkčnosť
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }

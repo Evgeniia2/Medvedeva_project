@@ -6,6 +6,8 @@ require_once __DIR__ . '/User.php';
 $db = new Database('localhost', 'root', '', 'kozmetika');
 $user = new User($db);
 
+// Kontrola, spustenie aktuálneho stavu relácie, relácia je zapnutá, ale ešte nebola spustená. Zaručuje, že relácia bude 
+// spustená iba raz v skripte, čo predchádza chybám a zabezpečuje správnu funkčnosť
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
