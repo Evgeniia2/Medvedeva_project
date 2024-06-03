@@ -1,5 +1,5 @@
 <?php
-require_once "conn.php"; // // Pripojenie súboru conn.php. Je zaručené, že súbor bude pripojený iba raz
+require_once "conn.php"; // Pripojenie súboru conn.php. Je zaručené, že súbor bude pripojený iba raz
 session_start();
 
 $errors = [];
